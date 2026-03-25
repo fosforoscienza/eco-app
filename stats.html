@@ -325,10 +325,11 @@ async function loadDashboard(silent = false) {
       const timeSpent = {home:0,natura:0,gioca:0,chisiamo:0,progetto:0,didattica:0};
       let quizDone=0, cardFlips=0, schedeFlips=0;
 
+      const CAP = 600; // ignora valori > 10 min (dati sporchi pre-fix)
       events.forEach(e => {
         if (e.event_type === 'nav' || e.event_type === 'session_start') {
           if (sections[e.section] !== undefined) sections[e.section]++;
-          if (timeSpent[e.section] !== undefined) timeSpent[e.section] += (e.time_on_prev_sec||0);
+          if (timeSpent[e.section] !== undefined) timeSpent[e.section] += Math.min(e.time_on_prev_sec||0, CAP);
         }
         if (e.event_type === 'quiz') quizDone++;
         if (e.event_type === 'cardFlip') cardFlips++;

@@ -726,10 +726,22 @@ function _freshStats() {
 }
 function _saveStats(s) { try { localStorage.setItem(_SK, JSON.stringify(s)); } catch(e) {} }
 
-let _curSec = 'home', _secStart = Date.now();
+let _curSec = 'home', _secStart = Date.now(), _pausedAt = null;
+
+// Pausa il cronometro quando l'utente minimizza / blocca il telefono
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden) {
+    _pausedAt = Date.now();
+  } else if (_pausedAt !== null) {
+    _secStart += Date.now() - _pausedAt; // recupera il gap di background
+    _pausedAt = null;
+  }
+});
+
+const MAX_SEC_PER_NAV = 600; // cap a 10 min: evita valori assurdi se l'app rimane aperta
 
 function _trackNav(id) {
-  const spent = Math.round((Date.now() - _secStart) / 1000);
+  const spent = Math.min(Math.round((Date.now() - _secStart) / 1000), MAX_SEC_PER_NAV);
   _supaInsert(id, 'nav', spent);
   const s = _getStats();
   if (s.timeSpent[_curSec] !== undefined) s.timeSpent[_curSec] += spent;
