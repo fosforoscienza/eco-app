@@ -354,6 +354,23 @@ html,body{
   color:#606878;font-weight:600;line-height:1.65;
 }
 .cs-tags{display:flex;flex-wrap:wrap;gap:7px;margin-top:8px}
+.partner-list{display:flex;flex-direction:column;gap:10px}
+.partner{
+  background:#f6f8fb;border-radius:14px;
+  padding:clamp(11px,calc(var(--aw)*0.03),15px) clamp(13px,calc(var(--aw)*0.035),17px);
+}
+.partner-name{
+  font-size:clamp(12px,calc(var(--aw)*0.033),14px);
+  font-weight:800;color:var(--navy);margin-bottom:3px;
+}
+.partner-loc{
+  font-size:clamp(10px,calc(var(--aw)*0.027),12px);
+  color:var(--btn-teal);font-weight:700;margin-bottom:4px;
+}
+.partner-desc{
+  font-size:clamp(10px,calc(var(--aw)*0.028),12px);
+  color:#606878;font-weight:600;line-height:1.55;
+}
 .tag{
   padding:5px 12px;border-radius:20px;
   font-size:clamp(10px,calc(var(--aw)*0.028),12px);font-weight:700;
@@ -489,7 +506,7 @@ html,body{
           <button class="btn btn-purple" onclick="nav('didattica')">Didattica</button>
         </div>
       </div>
-      <p class="app-version">v2.15</p>
+      <p class="app-version">v2.16</p>
     </div>
   </div>
 
@@ -892,32 +909,47 @@ function renderCS() {
       <p class="cs-hero-sub">Ecosistema di Comunità = Opportunità</p>
     </div>
     <div>
-      <h3 class="cs-sec-title">Chi siamo</h3>
-      <p class="cs-sec-text">Siamo Pleiadi, un'associazione che crede nel potere dell'educazione ambientale per costruire comunità più sostenibili. Il progetto ECO nasce dall'idea che ogni persona — a qualsiasi età — può fare la differenza per il nostro pianeta.</p>
+      <h3 class="cs-sec-title">Il Progetto</h3>
+      <p class="cs-sec-text">ECO è un progetto Erasmus+ KA210-YOU che coinvolge sei organizzazioni italiane unite da un obiettivo comune: avvicinare i giovani alla natura, tutelare la biodiversità e costruire comunità più sostenibili attraverso educazione, scienza e cittadinanza attiva.</p>
     </div>
     <div>
-      <h3 class="cs-sec-title">La nostra missione</h3>
-      <p class="cs-sec-text">Vogliamo avvicinare i giovani alla natura attraverso esperienze interattive, giochi e sfide. Crediamo che conoscere significa amare, e amare significa proteggere. La curiosità è il primo passo verso il cambiamento.</p>
-    </div>
-    <div>
-      <h3 class="cs-sec-title">Il Progetto ECO</h3>
-      <p class="cs-sec-text">ECO (Ecosistema di Comunità = Opportunità) è un progetto Erasmus+ che unisce giovani da tutta Europa in attività di scoperta della natura, cittadinanza attiva e sostenibilità ambientale. Insieme siamo più forti.</p>
-    </div>
-    <div>
-      <h3 class="cs-sec-title">I nostri valori</h3>
-      <div class="cs-tags">
-        <span class="tag tag-green">Sostenibilità</span>
-        <span class="tag tag-amber">Inclusione</span>
-        <span class="tag tag-terra">Creatività</span>
-        <span class="tag tag-green">Cittadinanza attiva</span>
-        <span class="tag tag-amber">Rispetto per la natura</span>
-        <span class="tag tag-terra">Cooperazione</span>
+      <h3 class="cs-sec-title">I Partner</h3>
+      <div class="partner-list">
+        <div class="partner">
+          <p class="partner-name">Gruppo Pleiadi SCS</p>
+          <p class="partner-loc">Vigonza (PD), Veneto</p>
+          <p class="partner-desc">Team di scienziati, creativi e professionisti specializzato in educazione STEAM e comunicazione scientifica.</p>
+        </div>
+        <div class="partner">
+          <p class="partner-name">Scatola Cultura SCS ONLUS</p>
+          <p class="partner-loc">Chiampo (VI), Veneto</p>
+          <p class="partner-desc">Educatori che operano in archeologia, storia, arte e scienze naturali, con focus sulla valorizzazione del patrimonio culturale.</p>
+        </div>
+        <div class="partner">
+          <p class="partner-name">Associazione Culturale NEXT</p>
+          <p class="partner-loc">Senigallia (AN), Marche</p>
+          <p class="partner-desc">Promuove la cultura scientifica e tecnologica attraverso educazione informale, festival della scienza e attività STEAM.</p>
+        </div>
+        <div class="partner">
+          <p class="partner-name">Fondazione Caritas Senigallia ETS</p>
+          <p class="partner-loc">Senigallia (AN), Marche</p>
+          <p class="partner-desc">Opera per i bisogni sociali e la tutela ambientale in 16 comuni della Diocesi di Senigallia.</p>
+        </div>
+        <div class="partner">
+          <p class="partner-name">Università di Camerino</p>
+          <p class="partner-loc">Camerino (MC), Marche</p>
+          <p class="partner-desc">Ateneo fondato nel 1336, con cinque scuole che offrono programmi in scienze, tecnologia e professioni.</p>
+        </div>
+        <div class="partner">
+          <p class="partner-name">Isfid Prisma Società Cooperativa</p>
+          <p class="partner-loc">Veneto</p>
+          <p class="partner-desc">Cooperativa con certificazione ISO specializzata in formazione, consulenza e innovazione gestionale.</p>
+        </div>
       </div>
     </div>
-    <div>
-      <h3 class="cs-sec-title">Contattaci</h3>
-      <p class="cs-sec-text">Vuoi partecipare alle nostre attività o portare il progetto ECO nella tua scuola o associazione? Scrivici! Siamo sempre felici di accogliere nuovi esploratori della natura.</p>
-    </div>
+    <button class="prog-link-btn" onclick="window.open('https://www.ecosistemadicomunita.it','_blank')">
+      Visita il sito del progetto
+    </button>
   `;
 }
 
