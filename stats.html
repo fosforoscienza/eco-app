@@ -103,7 +103,8 @@ tr:last-child td{border-bottom:none}
       <p id="hdr-sub">Caricamento…</p>
     </div>
     <div class="hdr-btns">
-      <button class="btn-sm" onclick="loadDashboard()">Aggiorna</button>
+      <span id="refresh-countdown" style="font-size:11px;color:#4a5060;align-self:center"></span>
+      <button class="btn-sm" onclick="manualRefresh()">↻ Aggiorna ora</button>
       <button class="btn-sm btn-danger" onclick="resetLocal()">Reset locale</button>
     </div>
   </header>
@@ -132,12 +133,39 @@ const COLORS = {
   progetto:'#3dab8a', didattica:'#8a5aab', guida:'#e0a030'
 };
 
+// ── AUTO-REFRESH ─────────────────────────────────────────────
+let _refreshTimer = null;
+let _countdownTimer = null;
+let _nextRefresh = 0;
+const REFRESH_SEC = 30;
+
+function startAutoRefresh() {
+  if (_refreshTimer) clearInterval(_refreshTimer);
+  if (_countdownTimer) clearInterval(_countdownTimer);
+  _nextRefresh = REFRESH_SEC;
+  _refreshTimer = setInterval(() => {
+    _nextRefresh = REFRESH_SEC;
+    loadDashboard(true);
+  }, REFRESH_SEC * 1000);
+  _countdownTimer = setInterval(() => {
+    _nextRefresh--;
+    const el = document.getElementById('refresh-countdown');
+    if (el) el.textContent = `aggiornamento tra ${_nextRefresh}s`;
+  }, 1000);
+}
+
+function manualRefresh() {
+  _nextRefresh = REFRESH_SEC;
+  loadDashboard(false);
+}
+
 // ── AUTH ─────────────────────────────────────────────────────
 function checkPw() {
   if (document.getElementById('pw-input').value === PASS) {
     document.getElementById('login').style.display = 'none';
     document.getElementById('dashboard').style.display = 'block';
-    loadDashboard();
+    loadDashboard(false);
+    startAutoRefresh();
   } else {
     document.getElementById('pw-err').textContent = 'Password errata';
     document.getElementById('pw-input').value = '';
@@ -235,8 +263,10 @@ function renderDashboard(data, source) {
     ? '<tr><th>#</th><th>Sezione</th><th>Data</th><th>Ora</th><th>Sessione</th></tr>'
     : '<tr><th>#</th><th>Sezione</th><th>Data</th><th>Ora</th></tr>';
 
+  const now = new Date();
+  const nowStr = now.toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
   document.getElementById('hdr-sub').textContent =
-    `Prima visita: ${firstVisit ? fmtDate(new Date(firstVisit)) : '—'} · Ultima: ${lastVisit ? fmtDate(new Date(lastVisit)) : '—'}`;
+    `Prima visita: ${firstVisit ? fmtDate(new Date(firstVisit)) : '—'} · Ultima: ${lastVisit ? fmtDate(new Date(lastVisit)) : '—'} · Aggiornato: ${nowStr}`;
 
   el.innerHTML = `
     ${sourceBadge}
@@ -275,9 +305,11 @@ function renderDashboard(data, source) {
 }
 
 // ── LOAD — Supabase se configurato, altrimenti localStorage ──
-async function loadDashboard() {
-  document.getElementById('content').innerHTML =
-    '<div class="spinner"><div class="spin"></div> Caricamento dati…</div>';
+async function loadDashboard(silent = false) {
+  if (!silent) {
+    document.getElementById('content').innerHTML =
+      '<div class="spinner"><div class="spin"></div> Caricamento dati…</div>';
+  }
 
   if (SUPA_ON) {
     try {
