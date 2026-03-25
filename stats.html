@@ -9,63 +9,59 @@
 body{font-family:'Segoe UI',system-ui,sans-serif;background:#0f1117;color:#e8eaf0;min-height:100vh}
 
 /* ── LOGIN ── */
-#login{
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  min-height:100vh;gap:16px;padding:24px;
-}
-#login h1{font-size:22px;font-weight:700;color:#96c23c;letter-spacing:0.02em}
+#login{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;gap:16px;padding:24px}
+#login h1{font-size:22px;font-weight:700;color:#96c23c}
 #login p{font-size:13px;color:#7a8090}
 #pw-wrap{display:flex;gap:8px;margin-top:4px}
-#pw-input{
-  padding:10px 16px;border-radius:10px;border:1px solid #2a2d3a;
-  background:#1a1d27;color:#e8eaf0;font-size:14px;width:220px;
-  outline:none;transition:border-color .2s;
-}
+#pw-input{padding:10px 16px;border-radius:10px;border:1px solid #2a2d3a;background:#1a1d27;color:#e8eaf0;font-size:14px;width:220px;outline:none;transition:border-color .2s}
 #pw-input:focus{border-color:#96c23c}
-#pw-btn{
-  padding:10px 20px;background:#96c23c;color:#fff;border:none;
-  border-radius:10px;font-weight:700;font-size:14px;cursor:pointer;
-}
+#pw-btn{padding:10px 20px;background:#96c23c;color:#fff;border:none;border-radius:10px;font-weight:700;font-size:14px;cursor:pointer}
 #pw-btn:hover{background:#7da832}
 #pw-err{color:#e05050;font-size:12px;min-height:16px}
 
-/* ── DASHBOARD ── */
-#dashboard{display:none;max-width:860px;margin:0 auto;padding:24px 16px 60px}
-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:28px;flex-wrap:wrap;gap:12px}
+/* ── LAYOUT ── */
+#dashboard{display:none;max-width:900px;margin:0 auto;padding:28px 16px 60px}
+header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:28px;flex-wrap:wrap;gap:12px}
 header h1{font-size:20px;font-weight:800;color:#96c23c}
-header p{font-size:12px;color:#6a7080}
-.btn-sm{
-  padding:7px 14px;background:#1e2130;border:1px solid #2a2d3a;color:#aab0c0;
-  border-radius:8px;font-size:12px;cursor:pointer;font-weight:600;
-}
+header p{font-size:12px;color:#6a7080;margin-top:3px}
+.hdr-btns{display:flex;gap:8px;flex-wrap:wrap}
+.btn-sm{padding:7px 14px;background:#1e2130;border:1px solid #2a2d3a;color:#aab0c0;border-radius:8px;font-size:12px;cursor:pointer;font-weight:600}
 .btn-sm:hover{background:#252838;color:#fff}
 .btn-danger{border-color:#5a2020;color:#e05050}
 .btn-danger:hover{background:#3a1515;color:#ff6060}
 
-/* ── CARDS KPI ── */
-.kpi-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;margin-bottom:28px}
-.kpi{
-  background:#1a1d27;border:1px solid #2a2d3a;border-radius:14px;
-  padding:16px;text-align:center;
-}
+/* ── SOURCE BADGE ── */
+.source-badge{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:20px;font-size:11px;font-weight:700;margin-bottom:20px}
+.source-live{background:#0d2a1a;color:#4ade80;border:1px solid #1a5030}
+.source-local{background:#2a1a0d;color:#fb923c;border:1px solid #5a3010}
+.dot{width:7px;height:7px;border-radius:50%;background:currentColor;animation:pulse 1.5s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+/* ── KPI GRID ── */
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px;margin-bottom:28px}
+.kpi{background:#1a1d27;border:1px solid #2a2d3a;border-radius:14px;padding:16px;text-align:center}
 .kpi-val{font-size:32px;font-weight:800;color:#96c23c;line-height:1}
-.kpi-label{font-size:11px;color:#6a7080;margin-top:6px;font-weight:600;text-transform:uppercase;letter-spacing:0.05em}
+.kpi-label{font-size:10px;color:#6a7080;margin-top:6px;font-weight:700;text-transform:uppercase;letter-spacing:0.06em}
 
-/* ── SEZIONE TITOLO ── */
-.sec-title{font-size:13px;font-weight:700;color:#8090a0;text-transform:uppercase;letter-spacing:0.08em;margin:0 0 12px}
+/* ── SECTION TITLE ── */
+.sec-title{font-size:11px;font-weight:700;color:#8090a0;text-transform:uppercase;letter-spacing:0.08em;margin:0 0 12px}
 
-/* ── BAR CHARTS ── */
-.chart-card{background:#1a1d27;border:1px solid #2a2d3a;border-radius:14px;padding:20px;margin-bottom:16px}
+/* ── CHART ── */
+.chart-card{background:#1a1d27;border:1px solid #2a2d3a;border-radius:14px;padding:20px;margin-bottom:20px}
 .bar-row{display:flex;align-items:center;gap:10px;margin-bottom:10px}
 .bar-row:last-child{margin-bottom:0}
 .bar-label{font-size:12px;color:#aab0c0;font-weight:600;width:100px;flex-shrink:0;text-align:right}
-.bar-wrap{flex:1;background:#12141c;border-radius:6px;height:22px;overflow:hidden}
-.bar-fill{height:100%;border-radius:6px;transition:width .6s ease;min-width:2px;display:flex;align-items:center;padding-left:8px}
-.bar-val{font-size:11px;font-weight:700;color:rgba(255,255,255,.85);white-space:nowrap}
+.bar-wrap{flex:1;background:#12141c;border-radius:6px;height:24px;overflow:hidden}
+.bar-fill{height:100%;border-radius:6px;display:flex;align-items:center;padding-left:8px;transition:width .7s ease}
+.bar-val{font-size:11px;font-weight:700;color:rgba(255,255,255,.9);white-space:nowrap}
+
+/* ── TWO COL ── */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:4px}
+@media(max-width:560px){.two-col{grid-template-columns:1fr}}
 
 /* ── LOG TABLE ── */
-.log-card{background:#1a1d27;border:1px solid #2a2d3a;border-radius:14px;padding:20px;margin-bottom:16px;overflow:hidden}
-.log-scroll{max-height:260px;overflow-y:auto}
+.log-card{background:#1a1d27;border:1px solid #2a2d3a;border-radius:14px;padding:20px;margin-bottom:20px;overflow:hidden}
+.log-scroll{max-height:280px;overflow-y:auto}
 .log-scroll::-webkit-scrollbar{width:4px}
 .log-scroll::-webkit-scrollbar-thumb{background:#2a2d3a;border-radius:2px}
 table{width:100%;border-collapse:collapse;font-size:12px}
@@ -74,12 +70,16 @@ td{padding:6px 8px;border-bottom:1px solid #1e2130;color:#c0c8d8}
 tr:last-child td{border-bottom:none}
 .tag{display:inline-block;padding:2px 8px;border-radius:20px;font-size:10px;font-weight:700}
 
-/* ── TIME ── */
-.two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
-@media(max-width:520px){.two-col{grid-template-columns:1fr}}
+/* ── SETUP PANEL ── */
+.setup-panel{background:#1a1d27;border:2px dashed #3a3d4a;border-radius:14px;padding:24px;margin-bottom:24px}
+.setup-panel h3{color:#f5a828;font-size:14px;margin-bottom:12px}
+.setup-panel ol{padding-left:20px;color:#9098b0;font-size:13px;line-height:2}
+.setup-panel code{background:#0f1117;padding:2px 6px;border-radius:4px;font-size:11px;color:#96c23c}
 
-/* ── FOOTER ── */
-.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:20px}
+/* ── SPINNER ── */
+.spinner{display:flex;align-items:center;justify-content:center;padding:40px;color:#4a5060;font-size:13px;gap:10px}
+.spin{width:18px;height:18px;border:2px solid #2a2d3a;border-top-color:#96c23c;border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
 </style>
 </head>
 <body>
@@ -100,64 +100,41 @@ tr:last-child td{border-bottom:none}
   <header>
     <div>
       <h1>ECO App — Statistiche</h1>
-      <p id="hdr-sub"></p>
+      <p id="hdr-sub">Caricamento…</p>
     </div>
-    <div style="display:flex;gap:8px;flex-wrap:wrap">
-      <button class="btn-sm" onclick="exportData()">Esporta JSON</button>
-      <button class="btn-sm btn-danger" onclick="resetData()">Reset dati</button>
+    <div class="hdr-btns">
+      <button class="btn-sm" onclick="loadDashboard()">Aggiorna</button>
+      <button class="btn-sm btn-danger" onclick="resetLocal()">Reset locale</button>
     </div>
   </header>
 
-  <!-- KPI -->
-  <div class="kpi-grid">
-    <div class="kpi"><div class="kpi-val" id="k-sessions">—</div><div class="kpi-label">Sessioni</div></div>
-    <div class="kpi"><div class="kpi-val" id="k-pageviews">—</div><div class="kpi-label">Navigazioni</div></div>
-    <div class="kpi"><div class="kpi-val" id="k-quiz">—</div><div class="kpi-label">Quiz completati</div></div>
-    <div class="kpi"><div class="kpi-val" id="k-cards">—</div><div class="kpi-label">Card girate</div></div>
-    <div class="kpi"><div class="kpi-val" id="k-schede">—</div><div class="kpi-label">Schede aperte</div></div>
-    <div class="kpi"><div class="kpi-val" id="k-guida">—</div><div class="kpi-label">Guide scaricate</div></div>
-  </div>
-
-  <!-- VISITE PER SEZIONE -->
-  <p class="sec-title">Visite per sezione</p>
-  <div class="chart-card" id="chart-sections"></div>
-
-  <!-- TEMPO PER SEZIONE -->
-  <div class="two-col">
-    <div>
-      <p class="sec-title">Tempo totale (min)</p>
-      <div class="chart-card" id="chart-time"></div>
-    </div>
-    <div>
-      <p class="sec-title">Tempo medio / visita (sec)</p>
-      <div class="chart-card" id="chart-avg"></div>
-    </div>
-  </div>
-
-  <!-- LOG RECENTE -->
-  <p class="sec-title">Attività recente (ultime 50 navigazioni)</p>
-  <div class="log-card">
-    <div class="log-scroll">
-      <table>
-        <thead><tr><th>#</th><th>Sezione</th><th>Data</th><th>Ora</th></tr></thead>
-        <tbody id="log-body"></tbody>
-      </table>
-    </div>
-  </div>
-
-  <div class="actions">
-    <button class="btn-sm" onclick="location.reload()">Aggiorna</button>
-    <button class="btn-sm" onclick="window.close()">Chiudi</button>
+  <div id="content">
+    <div class="spinner"><div class="spin"></div> Caricamento dati…</div>
   </div>
 </div>
 
 <script>
-const PASS = 'ECOadmin24';
-const SK = 'eco_stats_v1';
+// ── CONFIG — deve corrispondere a index.html ──────────────────
+const PASS      = 'ECOadmin24';
+const SUPA_URL  = 'https://INSERISCI_QUI.supabase.co';
+const SUPA_KEY  = 'INSERISCI_QUI_ANON_KEY';
+const SUPA_ON   = !SUPA_URL.includes('INSERISCI');
+const SK        = 'eco_stats_v1';
 
+// ── META ─────────────────────────────────────────────────────
+const LABELS = {
+  home:'Home', natura:'Natura', gioca:'Quiz', chisiamo:'Chi siamo',
+  progetto:'Progetto', didattica:'Didattica', guida:'Guida',
+  cardFlip:'Flip carta', schedaFlip:'Flip scheda', quiz:'Quiz completato'
+};
+const COLORS = {
+  home:'#3d82b0', natura:'#78b03d', gioca:'#f5a828', chisiamo:'#c95838',
+  progetto:'#3dab8a', didattica:'#8a5aab', guida:'#e0a030'
+};
+
+// ── AUTH ─────────────────────────────────────────────────────
 function checkPw() {
-  const v = document.getElementById('pw-input').value;
-  if (v === PASS) {
+  if (document.getElementById('pw-input').value === PASS) {
     document.getElementById('login').style.display = 'none';
     document.getElementById('dashboard').style.display = 'block';
     loadDashboard();
@@ -168,113 +145,202 @@ function checkPw() {
   }
 }
 
-// ── SECTION META ──────────────────────────────────────────────
-const SECTION_LABELS = {
-  home:'Home', natura:'Natura', gioca:'Quiz', chisiamo:'Chi siamo',
-  progetto:'Progetto', didattica:'Didattica', guida:'Guida'
-};
-const SECTION_COLORS = {
-  home:'#3d82b0', natura:'#78b03d', gioca:'#f5a828', chisiamo:'#c95838',
-  progetto:'#3dab8a', didattica:'#8a5aab', guida:'#e0a030'
-};
+// ── SUPABASE FETCH ────────────────────────────────────────────
+async function supaFetch(path) {
+  const r = await fetch(SUPA_URL + '/rest/v1/' + path, {
+    headers:{ 'apikey': SUPA_KEY, 'Authorization': 'Bearer ' + SUPA_KEY }
+  });
+  if (!r.ok) throw new Error('Supabase error ' + r.status);
+  return r.json();
+}
 
 // ── HELPERS ───────────────────────────────────────────────────
-function getStats() {
-  try { return JSON.parse(localStorage.getItem(SK)); } catch(e) { return null; }
-}
 function fmtDate(ts) {
   return new Date(ts).toLocaleDateString('it-IT',{day:'2-digit',month:'2-digit',year:'2-digit'});
 }
 function fmtTime(ts) {
   return new Date(ts).toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit'});
 }
-function secToMin(s) { return (s/60).toFixed(1); }
-
-// ── BAR CHART ─────────────────────────────────────────────────
-function barChart(containerId, data, colorFn, valFmt) {
-  const el = document.getElementById(containerId);
-  const max = Math.max(...Object.values(data), 1);
-  el.innerHTML = Object.entries(data).map(([k,v]) => `
+function barChart(rows) {
+  const max = Math.max(...rows.map(r=>r.val), 1);
+  return rows.map(({label, val, color, suffix}) => `
     <div class="bar-row">
-      <span class="bar-label">${SECTION_LABELS[k]||k}</span>
+      <span class="bar-label">${label}</span>
       <div class="bar-wrap">
-        <div class="bar-fill" style="width:${Math.round(v/max*100)}%;background:${colorFn(k)}">
-          <span class="bar-val">${valFmt(v)}</span>
+        <div class="bar-fill" style="width:${Math.round(val/max*100)}%;background:${color||'#555'}">
+          <span class="bar-val">${val}${suffix||''}</span>
         </div>
       </div>
-    </div>
-  `).join('');
+    </div>`).join('');
 }
 
-// ── LOAD DASHBOARD ────────────────────────────────────────────
-function loadDashboard() {
-  const s = getStats();
-  if (!s) {
-    document.getElementById('dashboard').innerHTML = '<div style="text-align:center;padding:60px;color:#6a7080">Nessun dato ancora. Apri prima l\'app ECO.</div>';
-    return;
-  }
+// ── LOCAL STATS (fallback) ────────────────────────────────────
+function getLocalStats() {
+  try { return JSON.parse(localStorage.getItem(SK)); } catch(e) { return null; }
+}
 
-  // Header
-  const first = s.firstVisit ? fmtDate(s.firstVisit) : '—';
-  const last  = s.lastVisit  ? fmtDate(s.lastVisit)  : '—';
-  document.getElementById('hdr-sub').textContent = `Prima visita: ${first} · Ultima: ${last}`;
+// ── RENDER ────────────────────────────────────────────────────
+function renderDashboard(data, source) {
+  const el = document.getElementById('content');
+  const sourceBadge = source === 'supabase'
+    ? `<span class="source-badge source-live"><span class="dot"></span>Dati live — tutti i dispositivi</span>`
+    : `<span class="source-badge source-local"><span class="dot"></span>Dati locali — solo questo dispositivo</span>`;
 
-  // KPI
-  const totalViews = Object.values(s.sections).reduce((a,b)=>a+b, 0);
-  document.getElementById('k-sessions').textContent = s.sessions || 0;
-  document.getElementById('k-pageviews').textContent = totalViews;
-  document.getElementById('k-quiz').textContent = s.quizDone || 0;
-  document.getElementById('k-cards').textContent = s.cardFlips || 0;
-  document.getElementById('k-schede').textContent = s.schedeFlips || 0;
-  document.getElementById('k-guida').textContent = s.sections.guida || 0;
+  const setupPanel = (!SUPA_ON) ? `
+    <div class="setup-panel">
+      <h3>Configura Supabase per dati aggregati da tutti i dispositivi</h3>
+      <ol>
+        <li>Registrati gratis su <code>supabase.com</code> → crea un nuovo progetto</li>
+        <li>Vai su <strong>SQL Editor</strong> ed esegui:
+          <br><code>create table eco_events (id bigserial primary key, session_id text, section text, event_type text, time_on_prev_sec integer default 0, created_at timestamptz default now());</code>
+          <br><code>alter table eco_events enable row level security;</code>
+          <br><code>create policy "insert" on eco_events for insert to anon with check (true);</code>
+          <br><code>create policy "select" on eco_events for select to anon using (true);</code>
+        </li>
+        <li>Vai su <strong>Project Settings → API</strong> e copia <em>Project URL</em> e <em>anon public key</em></li>
+        <li>Sostituisci <code>INSERISCI_QUI</code> sia in <code>index.html</code> che in <code>stats.html</code></li>
+      </ol>
+    </div>` : '';
 
-  // Chart: visite sezioni
-  barChart('chart-sections', s.sections, k => SECTION_COLORS[k]||'#555', v => v);
+  const { sessions, totalViews, sections, timeSpent, quizDone, cardFlips, schedeFlips, guida, firstVisit, lastVisit, log } = data;
 
-  // Chart: tempo totale (min)
-  const timeMin = {};
-  Object.entries(s.timeSpent||{}).forEach(([k,v]) => timeMin[k] = parseFloat(secToMin(v)));
-  barChart('chart-time', timeMin, k => SECTION_COLORS[k]||'#555', v => v+'m');
+  const secRows = Object.entries(sections)
+    .sort((a,b)=>b[1]-a[1])
+    .map(([k,v])=>({label: LABELS[k]||k, val:v, color: COLORS[k]||'#555'}));
 
-  // Chart: tempo medio / visita (sec)
-  const timeAvg = {};
-  Object.entries(s.timeSpent||{}).forEach(([k,v]) => {
-    const visits = s.sections[k] || 1;
-    timeAvg[k] = Math.round(v / visits);
-  });
-  barChart('chart-avg', timeAvg, k => SECTION_COLORS[k]||'#555', v => v+'s');
+  const timeRows = Object.entries(timeSpent)
+    .filter(([,v])=>v>0)
+    .sort((a,b)=>b[1]-a[1])
+    .map(([k,v])=>({label: LABELS[k]||k, val: Math.round(v/60*10)/10, color: COLORS[k]||'#555', suffix:'m'}));
 
-  // Log table
-  const log = (s.log || []).slice(-50).reverse();
-  const tbody = document.getElementById('log-body');
-  tbody.innerHTML = log.map((entry, i) => {
-    const label = SECTION_LABELS[entry.s] || entry.s;
-    const color = SECTION_COLORS[entry.s] || '#555';
+  const avgRows = Object.entries(timeSpent)
+    .filter(([k])=>sections[k]>0)
+    .sort((a,b)=> (b[1]/(sections[b[0]]||1)) - (a[1]/(sections[a[0]]||1)))
+    .map(([k,v])=>({label: LABELS[k]||k, val: Math.round(v/(sections[k]||1)), color: COLORS[k]||'#555', suffix:'s'}));
+
+  const logRows = [...log].reverse().slice(0, 60).map((e,i) => {
+    const label = LABELS[e.section||e.s] || (e.section||e.s);
+    const color = COLORS[e.section||e.s] || '#555';
+    const ts = e.created_at ? new Date(e.created_at) : new Date(e.t||0);
     return `<tr>
-      <td style="color:#4a5060">${log.length - i}</td>
+      <td style="color:#4a5060">${i+1}</td>
       <td><span class="tag" style="background:${color}22;color:${color}">${label}</span></td>
-      <td>${fmtDate(entry.t)}</td>
-      <td>${fmtTime(entry.t)}</td>
+      <td>${fmtDate(ts)}</td>
+      <td>${fmtTime(ts)}</td>
+      ${source==='supabase'?`<td style="color:#4a5060;font-size:10px">${(e.session_id||'').slice(0,8)}…</td>`:''}
     </tr>`;
   }).join('');
+
+  const logHead = source === 'supabase'
+    ? '<tr><th>#</th><th>Sezione</th><th>Data</th><th>Ora</th><th>Sessione</th></tr>'
+    : '<tr><th>#</th><th>Sezione</th><th>Data</th><th>Ora</th></tr>';
+
+  document.getElementById('hdr-sub').textContent =
+    `Prima visita: ${firstVisit ? fmtDate(new Date(firstVisit)) : '—'} · Ultima: ${lastVisit ? fmtDate(new Date(lastVisit)) : '—'}`;
+
+  el.innerHTML = `
+    ${sourceBadge}
+    ${setupPanel}
+
+    <div class="kpi-grid">
+      <div class="kpi"><div class="kpi-val">${sessions}</div><div class="kpi-label">Sessioni</div></div>
+      <div class="kpi"><div class="kpi-val">${totalViews}</div><div class="kpi-label">Navigazioni</div></div>
+      <div class="kpi"><div class="kpi-val">${quizDone}</div><div class="kpi-label">Quiz completati</div></div>
+      <div class="kpi"><div class="kpi-val">${cardFlips}</div><div class="kpi-label">Card girate</div></div>
+      <div class="kpi"><div class="kpi-val">${schedeFlips}</div><div class="kpi-label">Schede aperte</div></div>
+      <div class="kpi"><div class="kpi-val">${guida}</div><div class="kpi-label">Guide scaricate</div></div>
+    </div>
+
+    <p class="sec-title">Visite per sezione</p>
+    <div class="chart-card">${barChart(secRows) || '<p style="color:#4a5060;font-size:13px">Nessun dato</p>'}</div>
+
+    <div class="two-col">
+      <div>
+        <p class="sec-title">Tempo totale (min)</p>
+        <div class="chart-card">${barChart(timeRows) || '<p style="color:#4a5060;font-size:13px">Nessun dato</p>'}</div>
+      </div>
+      <div>
+        <p class="sec-title">Tempo medio / visita (sec)</p>
+        <div class="chart-card">${barChart(avgRows) || '<p style="color:#4a5060;font-size:13px">Nessun dato</p>'}</div>
+      </div>
+    </div>
+
+    <p class="sec-title">Attività recente</p>
+    <div class="log-card">
+      <div class="log-scroll">
+        <table><thead>${logHead}</thead><tbody>${logRows || '<tr><td colspan="5" style="color:#4a5060;padding:20px">Nessun evento</td></tr>'}</tbody></table>
+      </div>
+    </div>
+  `;
 }
 
-// ── EXPORT ────────────────────────────────────────────────────
-function exportData() {
-  const s = getStats();
-  if (!s) return alert('Nessun dato da esportare.');
-  const blob = new Blob([JSON.stringify(s, null, 2)], {type:'application/json'});
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = `eco-stats-${new Date().toISOString().slice(0,10)}.json`;
-  a.click();
+// ── LOAD — Supabase se configurato, altrimenti localStorage ──
+async function loadDashboard() {
+  document.getElementById('content').innerHTML =
+    '<div class="spinner"><div class="spin"></div> Caricamento dati…</div>';
+
+  if (SUPA_ON) {
+    try {
+      const [events, sessionData] = await Promise.all([
+        supaFetch('eco_events?select=*&order=created_at.desc&limit=500'),
+        supaFetch('eco_events?select=session_id&event_type=eq.session_start')
+      ]);
+
+      // Aggregazioni lato client
+      const sections = {home:0,natura:0,gioca:0,chisiamo:0,progetto:0,didattica:0,guida:0};
+      const timeSpent = {home:0,natura:0,gioca:0,chisiamo:0,progetto:0,didattica:0};
+      let quizDone=0, cardFlips=0, schedeFlips=0;
+
+      events.forEach(e => {
+        if (e.event_type === 'nav' || e.event_type === 'session_start') {
+          if (sections[e.section] !== undefined) sections[e.section]++;
+          if (timeSpent[e.section] !== undefined) timeSpent[e.section] += (e.time_on_prev_sec||0);
+        }
+        if (e.event_type === 'quiz') quizDone++;
+        if (e.event_type === 'cardFlip') cardFlips++;
+        if (e.event_type === 'schedaFlip') schedeFlips++;
+        if (e.event_type === 'guida') sections.guida++;
+      });
+
+      const sessions = new Set(sessionData.map(e=>e.session_id)).size;
+      const totalViews = Object.values(sections).reduce((a,b)=>a+b,0);
+      const allTs = events.map(e=>e.created_at);
+      const firstVisit = allTs.length ? new Date(Math.min(...allTs.map(t=>new Date(t)))) : null;
+      const lastVisit  = allTs.length ? new Date(Math.max(...allTs.map(t=>new Date(t)))) : null;
+
+      renderDashboard({
+        sessions, totalViews, sections, timeSpent,
+        quizDone, cardFlips, schedeFlips, guida: sections.guida,
+        firstVisit, lastVisit, log: events.slice(0,60)
+      }, 'supabase');
+      return;
+    } catch(err) {
+      console.warn('Supabase error, fallback to localStorage', err);
+    }
+  }
+
+  // Fallback: localStorage
+  const s = getLocalStats();
+  if (!s) {
+    document.getElementById('content').innerHTML =
+      '<div style="text-align:center;padding:60px;color:#6a7080">Nessun dato ancora. Apri prima l\'app ECO.</div>';
+    return;
+  }
+  const totalViews = Object.values(s.sections).reduce((a,b)=>a+b,0);
+  renderDashboard({
+    sessions: s.sessions||0, totalViews,
+    sections: s.sections||{}, timeSpent: s.timeSpent||{},
+    quizDone: s.quizDone||0, cardFlips: s.cardFlips||0,
+    schedeFlips: s.schedeFlips||0, guida: s.sections?.guida||0,
+    firstVisit: s.firstVisit, lastVisit: s.lastVisit,
+    log: (s.log||[]).map(e=>({...e, section:e.s}))
+  }, 'local');
 }
 
-// ── RESET ─────────────────────────────────────────────────────
-function resetData() {
-  if (!confirm('Sei sicuro? Tutti i dati di statistiche verranno cancellati.')) return;
+function resetLocal() {
+  if (!confirm('Cancella i dati locali di questo dispositivo?')) return;
   localStorage.removeItem(SK);
-  location.reload();
+  loadDashboard();
 }
 </script>
 </body>

@@ -506,7 +506,7 @@ html,body{
           <button class="btn btn-purple" onclick="nav('didattica')">Didattica</button>
         </div>
       </div>
-      <p class="app-version">v2.19</p>
+      <p class="app-version">v2.20</p>
     </div>
   </div>
 
@@ -670,7 +670,48 @@ const QUIZ = [
 ];
 
 /* =========================================================
-   STATS TRACKING
+   SUPABASE CONFIG — sostituisci con i tuoi valori
+   ========================================================= */
+const _SUPA_URL = 'https://INSERISCI_QUI.supabase.co';
+const _SUPA_KEY = 'INSERISCI_QUI_ANON_KEY';
+const _SUPA_ON  = !_SUPA_URL.includes('INSERISCI');
+
+// Session ID univoco per questa sessione browser
+const _SID = (()=>{
+  let id = sessionStorage.getItem('eco_sid');
+  if (!id) {
+    id = (crypto.randomUUID ? crypto.randomUUID()
+      : 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g,c=>{
+          const r=Math.random()*16|0; return(c=='x'?r:r&0x3|0x8).toString(16);
+        }));
+    sessionStorage.setItem('eco_sid', id);
+  }
+  return id;
+})();
+
+async function _supaInsert(section, eventType, timeOnPrev) {
+  if (!_SUPA_ON) return;
+  try {
+    fetch(_SUPA_URL+'/rest/v1/eco_events', {
+      method:'POST',
+      headers:{
+        'Content-Type':'application/json',
+        'apikey':_SUPA_KEY,
+        'Authorization':'Bearer '+_SUPA_KEY,
+        'Prefer':'return=minimal'
+      },
+      body: JSON.stringify({
+        session_id: _SID,
+        section,
+        event_type: eventType,
+        time_on_prev_sec: timeOnPrev || 0
+      })
+    });
+  } catch(e) {}
+}
+
+/* =========================================================
+   STATS TRACKING (localStorage — fallback locale)
    ========================================================= */
 const _SK = 'eco_stats_v1';
 function _getStats() {
@@ -687,8 +728,9 @@ function _saveStats(s) { try { localStorage.setItem(_SK, JSON.stringify(s)); } c
 let _curSec = 'home', _secStart = Date.now();
 
 function _trackNav(id) {
-  const s = _getStats();
   const spent = Math.round((Date.now() - _secStart) / 1000);
+  _supaInsert(id, 'nav', spent);
+  const s = _getStats();
   if (s.timeSpent[_curSec] !== undefined) s.timeSpent[_curSec] += spent;
   _curSec = id; _secStart = Date.now();
   if (s.sections[id] !== undefined) s.sections[id]++;
@@ -698,6 +740,7 @@ function _trackNav(id) {
   _saveStats(s);
 }
 function _trackEvent(evt) {
+  _supaInsert(evt, evt, 0);
   const s = _getStats();
   if (evt === 'quiz') s.quizDone++;
   else if (evt === 'cardFlip') s.cardFlips++;
@@ -706,6 +749,7 @@ function _trackEvent(evt) {
 }
 // Sessione iniziale
 (function() {
+  _supaInsert('home', 'session_start', 0);
   const s = _getStats();
   if (!s.lastVisit || Date.now() - s.lastVisit > 30*60*1000) s.sessions++;
   s.sections.home++; s.lastVisit = Date.now();
