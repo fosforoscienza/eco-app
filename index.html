@@ -20,6 +20,9 @@
   --btn-green:#78b03d;
   --btn-amber:#f5a828;
   --btn-terra:#c95838;
+  --btn-blue:#3d82b0;
+  --btn-teal:#3dab8a;
+  --btn-purple:#8a5aab;
   --navy:#1a2748;
   --white:#fff;
 }
@@ -110,14 +113,15 @@ html,body{
   color:#727888;font-weight:600;
 }
 .home-btns{
-  display:flex;gap:4%;width:100%;margin-top:14px;
+  display:flex;flex-direction:column;gap:7px;width:100%;margin-top:10px;
 }
+.home-btns-row{display:flex;gap:3%;width:100%}
 .home-btns .btn{
   flex:1;
-  padding:clamp(11px,calc(var(--aw)*0.034),18px) 0;
-  border:none;border-radius:16px;
+  padding:clamp(10px,calc(var(--aw)*0.029),14px) 0;
+  border:none;border-radius:14px;
   font-family:'Nunito',sans-serif;
-  font-size:clamp(12px,calc(var(--aw)*0.038),17px);
+  font-size:clamp(11px,calc(var(--aw)*0.033),15px);
   font-weight:800;color:var(--white);
   cursor:pointer;
   transition:transform .15s,box-shadow .15s;
@@ -127,6 +131,9 @@ html,body{
 .btn-green{background:var(--btn-green)}
 .btn-amber{background:var(--btn-amber)}
 .btn-terra{background:var(--btn-terra)}
+.btn-blue{background:var(--btn-blue)}
+.btn-teal{background:var(--btn-teal)}
+.btn-purple{background:var(--btn-purple)}
 
 /* ========= INNER SCREENS ========= */
 .screen-header{
@@ -336,6 +343,69 @@ html,body{
 .tag-green{background:#e8f5d0;color:#2d5c10}
 .tag-amber{background:#fff3d0;color:#7a4e00}
 .tag-terra{background:#fde8e0;color:#7a1800}
+
+/* ========= PROGETTO ========= */
+#progetto{background:var(--white)}
+.prog-scroll{flex:1;overflow-y:auto;padding:0 clamp(14px,calc(var(--aw)*0.04),20px) 24px;display:flex;flex-direction:column;gap:14px}
+.prog-scroll::-webkit-scrollbar{width:3px}
+.prog-scroll::-webkit-scrollbar-thumb{background:rgba(0,0,0,.1);border-radius:3px}
+.prog-hero{
+  background:linear-gradient(135deg,#3d82b0,#3dab8a);
+  border-radius:18px;padding:clamp(18px,calc(var(--aw)*0.05),26px);text-align:center;
+}
+.prog-hero-title{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(18px,calc(var(--aw)*0.06),26px);
+  font-weight:700;color:white;margin-bottom:6px;
+}
+.prog-hero-sub{font-size:clamp(11px,calc(var(--aw)*0.03),13px);color:rgba(255,255,255,.9);font-weight:600;line-height:1.45}
+.prog-desc{
+  font-size:clamp(12px,calc(var(--aw)*0.033),15px);
+  color:#505868;font-weight:600;line-height:1.65;
+}
+.prog-pillars{display:flex;flex-direction:column;gap:10px}
+.pillar{
+  display:flex;align-items:flex-start;gap:12px;
+  background:#f6f8fb;border-radius:14px;
+  padding:clamp(12px,calc(var(--aw)*0.032),16px);
+}
+.pillar-ico{
+  font-size:clamp(22px,calc(var(--aw)*0.065),28px);
+  flex-shrink:0;line-height:1;
+}
+.pillar-title{
+  font-size:clamp(12px,calc(var(--aw)*0.034),15px);
+  font-weight:800;color:var(--navy);margin-bottom:3px;
+}
+.pillar-text{
+  font-size:clamp(11px,calc(var(--aw)*0.029),13px);
+  color:#606878;font-weight:600;line-height:1.5;
+}
+.prog-sec-title{
+  font-size:clamp(13px,calc(var(--aw)*0.038),17px);
+  font-weight:800;color:var(--navy);margin-bottom:8px;
+}
+.territory-row{display:flex;gap:10px;flex-wrap:wrap}
+.territory{
+  display:flex;align-items:center;gap:8px;
+  background:#f0f8ff;border-radius:12px;
+  padding:10px 14px;flex:1;min-width:120px;
+}
+.territory-name{font-size:clamp(12px,calc(var(--aw)*0.033),15px);font-weight:800;color:var(--navy)}
+.territory-sub{font-size:clamp(10px,calc(var(--aw)*0.026),11px);color:#7090a0;font-weight:600}
+.prog-link-btn{
+  width:100%;padding:clamp(12px,calc(var(--aw)*0.034),16px);
+  border:2px solid var(--btn-blue);border-radius:14px;
+  background:transparent;font-family:'Nunito',sans-serif;
+  font-size:clamp(12px,calc(var(--aw)*0.034),15px);font-weight:800;
+  color:var(--btn-blue);cursor:pointer;
+  transition:background .15s,color .15s;
+}
+.prog-link-btn:active{background:var(--btn-blue);color:white}
+
+/* ========= DIDATTICA ========= */
+#didattica{background:var(--bg)}
+.card-back-purple{background:#7a4a9a;transform:rotateY(180deg)}
 </style>
 </head>
 <body>
@@ -353,9 +423,16 @@ html,body{
       <h1 class="home-title">ECO App</h1>
       <p class="home-subtitle">Gioca e scopri il progetto</p>
       <div class="home-btns">
-        <button class="btn btn-green" onclick="nav('natura')">Natura</button>
-        <button class="btn btn-amber" onclick="nav('gioca')">Gioca</button>
-        <button class="btn btn-terra" onclick="nav('chisiamo')">Chi siamo</button>
+        <div class="home-btns-row">
+          <button class="btn btn-green"  onclick="nav('natura')">Natura</button>
+          <button class="btn btn-amber"  onclick="nav('gioca')">Gioca</button>
+          <button class="btn btn-terra"  onclick="nav('chisiamo')">Chi siamo</button>
+        </div>
+        <div class="home-btns-row">
+          <button class="btn btn-blue"   onclick="nav('progetto')">Progetto</button>
+          <button class="btn btn-teal"   onclick="openGuida()">Guida</button>
+          <button class="btn btn-purple" onclick="nav('didattica')">Didattica</button>
+        </div>
       </div>
     </div>
   </div>
@@ -411,6 +488,33 @@ html,body{
       <span class="screen-title">Chi siamo</span>
     </div>
     <div class="cs-scroll" id="cs-content"></div>
+  </div>
+
+  <!-- ===== PROGETTO ===== -->
+  <div class="screen" id="progetto">
+    <div class="screen-header" style="background:white">
+      <button class="back-btn" onclick="nav('home')">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+          <path d="M11 3.5 L5.5 9 L11 14.5" stroke="#1a2748" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <span class="screen-title">🌍 Il Progetto</span>
+    </div>
+    <div class="prog-scroll" id="prog-content"></div>
+  </div>
+
+  <!-- ===== DIDATTICA ===== -->
+  <div class="screen" id="didattica">
+    <div class="screen-header" style="background:transparent">
+      <button class="back-btn" onclick="nav('home')">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+          <path d="M11 3.5 L5.5 9 L11 14.5" stroke="#1a2748" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <span class="screen-title">📚 Schede Didattiche</span>
+    </div>
+    <p class="card-hint">Tocca le schede per approfondire!</p>
+    <div class="cards-grid" id="didattica-container"></div>
   </div>
 
 </div>
@@ -485,9 +589,15 @@ function nav(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
   curScreen = id;
-  if (id === 'gioca')    { quiz = {idx:0,score:0,answered:false}; renderQuiz(); }
-  if (id === 'chisiamo') renderCS();
-  if (id === 'natura')   renderCards();
+  if (id === 'gioca')     { quiz = {idx:0,score:0,answered:false}; renderQuiz(); }
+  if (id === 'chisiamo')  renderCS();
+  if (id === 'natura')    renderCards();
+  if (id === 'progetto')  renderProgetto();
+  if (id === 'didattica') renderDidattica();
+}
+
+function openGuida() {
+  window.open('https://www.ecosistemadicomunita.it/wp-content/uploads/2025/01/Leco-del-fiaralosco_web-1.pdf','_blank');
 }
 
 /* =========================================================
@@ -581,6 +691,116 @@ function showResult() {
       <button class="btn-secondary" onclick="nav('home')">Torna alla home</button>
     </div>
   `;
+}
+
+/* =========================================================
+   PROGETTO
+   ========================================================= */
+function renderProgetto() {
+  document.getElementById('prog-content').innerHTML = `
+    <div class="prog-hero">
+      <h2 class="prog-hero-title">Ecosistema di Comunità</h2>
+      <p class="prog-hero-sub">Un progetto Erasmus+ per la tutela della biodiversità</p>
+    </div>
+    <p class="prog-desc">
+      Il progetto mette in comunicazione comunità e territori diversi, avviando processi
+      di collaborazione e scambio verso un obiettivo comune: <strong>proteggere la biodiversità</strong>
+      e valorizzare gli spazi verdi locali attraverso il coinvolgimento attivo dei giovani.
+    </p>
+    <div>
+      <h3 class="prog-sec-title">I quattro pilastri</h3>
+      <div class="prog-pillars">
+        <div class="pillar">
+          <span class="pillar-ico">🌱</span>
+          <div>
+            <p class="pillar-title">Sensibilizzare</p>
+            <p class="pillar-text">Promuovere la sostenibilità ambientale e la cura della biodiversità (SDG 15).</p>
+          </div>
+        </div>
+        <div class="pillar">
+          <span class="pillar-ico">🏙️</span>
+          <div>
+            <p class="pillar-title">Valorizzare</p>
+            <p class="pillar-text">Riqualificare spazi verdi marginali nei territori per renderli vivi e accessibili (SDG 11).</p>
+          </div>
+        </div>
+        <div class="pillar">
+          <span class="pillar-ico">🤝</span>
+          <div>
+            <p class="pillar-title">Appartenere</p>
+            <p class="pillar-text">Rafforzare il senso di comunità attraverso approcci bottom-up e pratiche condivise.</p>
+          </div>
+        </div>
+        <div class="pillar">
+          <span class="pillar-ico">🎓</span>
+          <div>
+            <p class="pillar-title">Responsabilizzare</p>
+            <p class="pillar-text">Sviluppare coscienza critica nei giovani tramite attività didattiche e citizen science (SDG 4).</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <h3 class="prog-sec-title">Territori coinvolti</h3>
+      <div class="territory-row">
+        <div class="territory">
+          <span style="font-size:22px">📍</span>
+          <div>
+            <p class="territory-name">Chiampo</p>
+            <p class="territory-sub">Vicenza, Veneto</p>
+          </div>
+        </div>
+        <div class="territory">
+          <span style="font-size:22px">📍</span>
+          <div>
+            <p class="territory-name">Senigallia</p>
+            <p class="territory-sub">Ancona, Marche</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button class="prog-link-btn" onclick="window.open('https://www.ecosistemadicomunita.it','_blank')">
+      🌐 Visita il sito del progetto
+    </button>
+  `;
+}
+
+/* =========================================================
+   DIDATTICA
+   ========================================================= */
+const SCHEDE = [
+  { e:"🦋", t:"Biomimetica",      sub:"Nature Inspired",
+    b:"Gli organismi viventi risolvono problemi attraverso milioni di anni di evoluzione. La biomimetica studia queste soluzioni per innovare tecnologia e design." },
+  { e:"🕸️", t:"Ecosistemi",       sub:"Green Connections",
+    b:"Un ecosistema è formato da componenti biotici e abiotici in equilibrio. Ogni essere ha un ruolo: le catene alimentari e i servizi ecosistemici ci sostengono tutti." },
+  { e:"🌊", t:"Clima e Oceani",    sub:"Antropocene Marino",
+    b:"I combustibili fossili alterano il clima e acidificano gli oceani. Gli ecosistemi polari sono in collasso: scioglimento dei ghiacciai e perdita di habitat unici." },
+  { e:"🪱", t:"Biologia del Suolo",sub:"Traffico Sotterraneo",
+    b:"I decompositori — batteri, funghi, lombrichi — trasformano la materia organica in nutrimento. Senza di loro, il suolo fertile cesserebbe di esistere." },
+  { e:"🌿", t:"Erbario",           sub:"Scoperta & Natura",
+    b:"Le collezioni storiche di piante sono strumenti scientifici preziosi. Permettono di documentare la biodiversità nel tempo e monitorare i cambiamenti della flora." },
+  { e:"🌸", t:"Biodiversità",      sub:"Natura Affascinante",
+    b:"La biodiversità comprende la varietà genetica, di specie e di ecosistemi. Ogni specie, anche la più piccola, è un tassello insostituibile della rete della vita." },
+];
+
+function renderDidattica() {
+  document.getElementById('didattica-container').innerHTML = SCHEDE.map((s,i) => `
+    <div class="card-wrap" onclick="this.classList.toggle('flipped')">
+      <div class="card-inner">
+        <div class="card-face card-front">
+          <span class="card-emoji">${s.e}</span>
+          <p class="card-title">${s.t}</p>
+          <p class="card-tap" style="color:#8a5aab;font-weight:700">${s.sub}</p>
+          <p class="card-tap" style="margin-top:6px">tocca ↺</p>
+        </div>
+        <div class="card-face card-back-purple">
+          <span class="card-num">${i+1}/6</span>
+          <span style="font-size:clamp(18px,5vw,24px);margin-bottom:6px">${s.e}</span>
+          <p class="card-back-text">${s.b}</p>
+        </div>
+      </div>
+    </div>
+  `).join('');
 }
 
 /* =========================================================
