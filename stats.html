@@ -315,18 +315,20 @@ async function loadDashboard(silent = false) {
 
   if (SUPA_ON) {
     try {
-      const [events, sessionData] = await Promise.all([
-        supaFetch('eco_events?select=*&order=created_at.desc&limit=500'),
+      // Query separate: log recente (con limite) + aggregati senza limite
+      const [logEvents, allEvents, sessionData] = await Promise.all([
+        supaFetch('eco_events?select=*&order=created_at.desc&limit=60'),
+        supaFetch('eco_events?select=section,event_type,time_on_prev_sec,created_at'),
         supaFetch('eco_events?select=session_id&event_type=eq.session_start')
       ]);
 
-      // Aggregazioni lato client
+      // Aggregazioni su TUTTI gli eventi (nessun limite)
       const sections = {home:0,natura:0,gioca:0,chisiamo:0,progetto:0,didattica:0,guida:0};
       const timeSpent = {home:0,natura:0,gioca:0,chisiamo:0,progetto:0,didattica:0};
       let quizDone=0, cardFlips=0, schedeFlips=0;
 
-      const CAP = 600; // ignora valori > 10 min (dati sporchi pre-fix)
-      events.forEach(e => {
+      const CAP = 600;
+      allEvents.forEach(e => {
         if (e.event_type === 'nav' || e.event_type === 'session_start') {
           if (sections[e.section] !== undefined) sections[e.section]++;
           if (timeSpent[e.section] !== undefined) timeSpent[e.section] += Math.min(e.time_on_prev_sec||0, CAP);
@@ -339,14 +341,14 @@ async function loadDashboard(silent = false) {
 
       const sessions = new Set(sessionData.map(e=>e.session_id)).size;
       const totalViews = Object.values(sections).reduce((a,b)=>a+b,0);
-      const allTs = events.map(e=>e.created_at);
+      const allTs = allEvents.map(e=>e.created_at);
       const firstVisit = allTs.length ? new Date(Math.min(...allTs.map(t=>new Date(t)))) : null;
       const lastVisit  = allTs.length ? new Date(Math.max(...allTs.map(t=>new Date(t)))) : null;
 
       renderDashboard({
         sessions, totalViews, sections, timeSpent,
         quizDone, cardFlips, schedeFlips, guida: sections.guida,
-        firstVisit, lastVisit, log: events.slice(0,60)
+        firstVisit, lastVisit, log: logEvents
       }, 'supabase');
       return;
     } catch(err) {
