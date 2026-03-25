@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="theme-color" content="#e2d9c4">
+<title>ECO App</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+
+:root{
+  --bg:#e2d9c4;
+  --green:#96c23c;
+  --btn-green:#78b03d;
+  --btn-amber:#f5a828;
+  --btn-terra:#c95838;
+  --navy:#1a2748;
+  --white:#fff;
+}
+
+html,body{
+  width:100%;height:100%;
+  display:flex;align-items:center;justify-content:center;
+  background:#7888b2;
+  font-family:'Nunito',sans-serif;
+  overflow:hidden;
+}
+
+#app{
+  --aw: min(430px, min(100vw, calc(100vh * 430 / 932)));
+  width:var(--aw);
+  height:calc(var(--aw) * 932 / 430);
+  position:relative;
+  overflow:hidden;
+  border-radius:min(44px, calc(var(--aw) * 0.1));
+  background:var(--bg);
+  box-shadow:0 24px 80px rgba(0,0,0,.45);
+}
+
+@media(max-width:430px){
+  html,body{background:var(--bg)}
+  #app{--aw:100vw;height:100vh;border-radius:0;box-shadow:none}
+}
+
+.screen{
+  position:absolute;inset:0;
+  display:none;flex-direction:column;
+  overflow:hidden;
+}
+.screen.active{display:flex}
+
+/* ========= HOME ========= */
+
+/* Sfondo illustrativo: immagine che copre il 63% superiore */
+.home-bg{
+  position:absolute;
+  inset:0 0 37% 0;        /* lascia spazio al pannello bianco */
+  background-image: url('bg.png');
+  background-size:cover;
+  background-position:center top;
+  background-repeat:no-repeat;
+  z-index:1;
+}
+/* Fallback colore se l'immagine non è ancora disponibile */
+.home-bg-fallback{
+  position:absolute;
+  inset:0 0 37% 0;
+  background:var(--bg);
+  z-index:0;
+}
+
+/* Bottom panel */
+.bottom-panel{
+  position:absolute;
+  bottom:0;left:0;right:0;
+  height:38%;
+  background:var(--white);
+  border-radius:36px 36px 0 0;
+  z-index:5;
+  display:flex;flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  padding:0 8% 6%;
+  gap:6px;
+  /* leggera ombra verso l'alto per staccare dall'immagine */
+  box-shadow:0 -6px 24px rgba(0,0,0,.08);
+}
+.home-title{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(26px,calc(var(--aw)*0.092),42px);
+  font-weight:700;color:var(--navy);
+  letter-spacing:.3px;
+}
+.home-subtitle{
+  font-size:clamp(12px,calc(var(--aw)*0.036),16px);
+  color:#727888;font-weight:600;
+}
+.home-btns{
+  display:flex;gap:4%;width:100%;margin-top:14px;
+}
+.home-btns .btn{
+  flex:1;
+  padding:clamp(11px,calc(var(--aw)*0.034),18px) 0;
+  border:none;border-radius:16px;
+  font-family:'Nunito',sans-serif;
+  font-size:clamp(12px,calc(var(--aw)*0.038),17px);
+  font-weight:800;color:var(--white);
+  cursor:pointer;
+  transition:transform .15s,box-shadow .15s;
+  box-shadow:0 4px 12px rgba(0,0,0,.15);
+}
+.home-btns .btn:active{transform:scale(.95)}
+.btn-green{background:var(--btn-green)}
+.btn-amber{background:var(--btn-amber)}
+.btn-terra{background:var(--btn-terra)}
+
+/* ========= INNER SCREENS ========= */
+.screen-header{
+  display:flex;align-items:center;
+  padding:clamp(14px,calc(var(--aw)*0.04),22px) clamp(14px,calc(var(--aw)*0.045),20px) 10px;
+  gap:10px;flex-shrink:0;
+}
+.back-btn{
+  background:rgba(0,0,0,.06);border:none;
+  cursor:pointer;
+  width:clamp(32px,calc(var(--aw)*0.085),38px);
+  height:clamp(32px,calc(var(--aw)*0.085),38px);
+  min-width:32px;
+  display:flex;align-items:center;justify-content:center;
+  border-radius:50%;
+  transition:background .15s;
+}
+.back-btn:active{background:rgba(0,0,0,.12)}
+.screen-title{
+  font-size:clamp(16px,calc(var(--aw)*0.05),22px);
+  font-weight:800;color:var(--navy);
+}
+
+/* ========= NATURA / CARDS ========= */
+#natura{background:var(--bg)}
+.card-hint{
+  padding:0 clamp(14px,calc(var(--aw)*0.04),20px) 10px;
+  font-size:clamp(11px,calc(var(--aw)*0.03),13px);
+  color:#888;font-weight:600;flex-shrink:0;
+}
+.cards-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
+  padding:0 clamp(12px,calc(var(--aw)*0.035),16px) 16px;
+  overflow-y:auto;flex:1;
+}
+.cards-grid::-webkit-scrollbar{width:3px}
+.cards-grid::-webkit-scrollbar-thumb{background:rgba(0,0,0,.15);border-radius:3px}
+
+.card-wrap{
+  perspective:700px;
+  aspect-ratio:3/4;cursor:pointer;
+}
+.card-inner{
+  width:100%;height:100%;
+  position:relative;transform-style:preserve-3d;
+  transition:transform .5s cubic-bezier(.4,0,.2,1);
+  border-radius:14px;
+  box-shadow:0 3px 12px rgba(0,0,0,.1);
+}
+.card-wrap.flipped .card-inner{transform:rotateY(180deg)}
+.card-face{
+  position:absolute;inset:0;
+  backface-visibility:hidden;
+  -webkit-backface-visibility:hidden;
+  border-radius:14px;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  padding:10px 8px;text-align:center;
+}
+.card-front{background:var(--white)}
+.card-back{background:var(--green);transform:rotateY(180deg)}
+.card-emoji{font-size:clamp(24px,calc(var(--aw)*0.072),34px);margin-bottom:6px}
+.card-title{
+  font-size:clamp(10px,calc(var(--aw)*0.029),14px);
+  font-weight:800;color:var(--navy);line-height:1.2;
+}
+.card-tap{font-size:clamp(8px,calc(var(--aw)*0.022),10px);color:#aaa;margin-top:4px;font-weight:600}
+.card-back-text{
+  font-size:clamp(9px,calc(var(--aw)*0.026),12px);
+  color:var(--white);font-weight:700;line-height:1.45;
+}
+.card-num{
+  position:absolute;top:8px;right:10px;
+  font-size:clamp(8px,calc(var(--aw)*0.022),10px);
+  color:rgba(255,255,255,.45);font-weight:700;
+}
+
+/* ========= QUIZ ========= */
+#gioca{background:var(--bg)}
+.quiz-scroll{flex:1;overflow-y:auto;padding:0 clamp(12px,calc(var(--aw)*0.035),16px) 20px;display:flex;flex-direction:column;gap:12px}
+.quiz-scroll::-webkit-scrollbar{width:3px}
+.quiz-scroll::-webkit-scrollbar-thumb{background:rgba(0,0,0,.15);border-radius:3px}
+
+.quiz-prog-row{display:flex;align-items:center;gap:10px}
+.prog-bar{flex:1;height:6px;background:rgba(0,0,0,.1);border-radius:3px;overflow:hidden}
+.prog-fill{height:100%;background:var(--btn-amber);border-radius:3px;transition:width .4s}
+.prog-label{font-size:clamp(10px,calc(var(--aw)*0.028),12px);font-weight:800;color:var(--navy);white-space:nowrap}
+
+.quiz-card{background:var(--white);border-radius:18px;padding:clamp(14px,calc(var(--aw)*0.04),20px);box-shadow:0 4px 16px rgba(0,0,0,.08)}
+.quiz-q{
+  font-size:clamp(13px,calc(var(--aw)*0.038),17px);
+  font-weight:800;color:var(--navy);line-height:1.45;margin-bottom:14px;
+}
+.quiz-answers{display:flex;flex-direction:column;gap:8px}
+.ans-btn{
+  width:100%;padding:clamp(11px,calc(var(--aw)*0.032),15px) 14px;
+  border:2px solid #e5e8f0;border-radius:12px;
+  background:var(--white);
+  font-family:'Nunito',sans-serif;
+  font-size:clamp(12px,calc(var(--aw)*0.033),15px);
+  font-weight:700;color:var(--navy);
+  text-align:left;cursor:pointer;
+  transition:border-color .15s,background .15s;
+  display:flex;align-items:center;gap:10px;
+}
+.ans-btn:hover:not(:disabled){border-color:var(--btn-amber);background:#fffbf0}
+.ans-btn.correct{border-color:#78b03d;background:#f0f9e8;color:#2e5818}
+.ans-btn.wrong{border-color:#d94030;background:#fdf0ee;color:#9a2018}
+.ans-btn:disabled{cursor:default}
+.ans-letter{
+  width:clamp(24px,calc(var(--aw)*0.065),30px);
+  height:clamp(24px,calc(var(--aw)*0.065),30px);
+  min-width:24px;
+  border-radius:50%;background:var(--bg);
+  display:flex;align-items:center;justify-content:center;
+  font-size:clamp(10px,calc(var(--aw)*0.028),13px);font-weight:900;color:var(--navy);
+  flex-shrink:0;
+}
+.ans-btn.correct .ans-letter{background:#78b03d;color:white}
+.ans-btn.wrong .ans-letter{background:#d94030;color:white}
+
+.explanation{
+  background:#f0f9e8;border-radius:12px;
+  padding:clamp(10px,calc(var(--aw)*0.03),14px);
+  font-size:clamp(11px,calc(var(--aw)*0.03),13px);
+  font-weight:700;color:#2e5818;line-height:1.5;
+  display:none;
+}
+.next-btn{
+  padding:clamp(12px,calc(var(--aw)*0.034),16px);
+  border:none;border-radius:14px;background:var(--btn-amber);
+  font-family:'Nunito',sans-serif;
+  font-size:clamp(13px,calc(var(--aw)*0.038),16px);font-weight:800;
+  color:var(--white);cursor:pointer;
+  transition:transform .15s;display:none;
+  box-shadow:0 4px 12px rgba(245,168,40,.35);
+}
+.next-btn:active{transform:scale(.97)}
+
+/* ========= RESULT ========= */
+#result{background:var(--white)}
+.result-body{
+  flex:1;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  padding:20px 30px;text-align:center;gap:12px;
+}
+.result-emoji{font-size:clamp(60px,calc(var(--aw)*0.18),82px)}
+.result-score{
+  font-size:clamp(40px,calc(var(--aw)*0.13),60px);
+  font-weight:900;color:var(--navy);line-height:1;
+}
+.result-lbl{font-size:clamp(14px,calc(var(--aw)*0.04),18px);font-weight:700;color:#606878}
+.result-msg{
+  font-size:clamp(12px,calc(var(--aw)*0.033),15px);
+  color:#808898;font-weight:600;line-height:1.55;max-width:300px;
+}
+.result-btns{display:flex;flex-direction:column;gap:10px;width:100%;margin-top:8px}
+.btn-primary{
+  padding:clamp(13px,calc(var(--aw)*0.036),17px);
+  border:none;border-radius:14px;background:var(--btn-amber);
+  font-family:'Nunito',sans-serif;
+  font-size:clamp(13px,calc(var(--aw)*0.038),16px);font-weight:800;
+  color:var(--white);cursor:pointer;
+  box-shadow:0 4px 12px rgba(245,168,40,.3);
+}
+.btn-secondary{
+  padding:clamp(12px,calc(var(--aw)*0.033),16px);
+  border:2px solid #e5e8f0;border-radius:14px;background:white;
+  font-family:'Nunito',sans-serif;
+  font-size:clamp(12px,calc(var(--aw)*0.033),15px);font-weight:700;
+  color:#606878;cursor:pointer;
+}
+
+/* ========= CHI SIAMO ========= */
+#chisiamo{background:var(--white)}
+.cs-scroll{flex:1;overflow-y:auto;padding:0 clamp(14px,calc(var(--aw)*0.04),20px) 24px;display:flex;flex-direction:column;gap:16px}
+.cs-scroll::-webkit-scrollbar{width:3px}
+.cs-scroll::-webkit-scrollbar-thumb{background:rgba(0,0,0,.1);border-radius:3px}
+
+.cs-hero{
+  background:var(--green);border-radius:18px;
+  padding:clamp(18px,calc(var(--aw)*0.05),24px);text-align:center;
+}
+.cs-hero-title{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(20px,calc(var(--aw)*0.065),28px);
+  font-weight:700;color:white;margin-bottom:6px;
+}
+.cs-hero-sub{font-size:clamp(11px,calc(var(--aw)*0.03),14px);color:rgba(255,255,255,.9);font-weight:600;line-height:1.45}
+.cs-sec-title{
+  font-size:clamp(13px,calc(var(--aw)*0.038),17px);
+  font-weight:800;color:var(--navy);margin-bottom:6px;
+}
+.cs-sec-text{
+  font-size:clamp(11px,calc(var(--aw)*0.031),14px);
+  color:#606878;font-weight:600;line-height:1.65;
+}
+.cs-tags{display:flex;flex-wrap:wrap;gap:7px;margin-top:8px}
+.tag{
+  padding:5px 12px;border-radius:20px;
+  font-size:clamp(10px,calc(var(--aw)*0.028),12px);font-weight:700;
+}
+.tag-green{background:#e8f5d0;color:#2d5c10}
+.tag-amber{background:#fff3d0;color:#7a4e00}
+.tag-terra{background:#fde8e0;color:#7a1800}
+</style>
+</head>
+<body>
+<div id="app">
+
+  <!-- ===== HOME ===== -->
+  <div class="screen active" id="home">
+    <!-- Fallback colore (visibile finché l'immagine non carica) -->
+    <div class="home-bg-fallback"></div>
+    <!-- Sfondo illustrativo (bg.jpg nella stessa cartella) -->
+    <div class="home-bg"></div>
+
+    <!-- Bottom panel -->
+    <div class="bottom-panel">
+      <h1 class="home-title">ECO App</h1>
+      <p class="home-subtitle">Gioca e scopri il progetto</p>
+      <div class="home-btns">
+        <button class="btn btn-green" onclick="nav('natura')">Natura</button>
+        <button class="btn btn-amber" onclick="nav('gioca')">Gioca</button>
+        <button class="btn btn-terra" onclick="nav('chisiamo')">Chi siamo</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== NATURA ===== -->
+  <div class="screen" id="natura">
+    <div class="screen-header" style="background:transparent">
+      <button class="back-btn" onclick="nav('home')">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+          <path d="M11 3.5 L5.5 9 L11 14.5" stroke="#1a2748" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <span class="screen-title">🌿 Natura</span>
+    </div>
+    <p class="card-hint">Tocca le card per scoprire di più!</p>
+    <div class="cards-grid" id="cards-container"></div>
+  </div>
+
+  <!-- ===== GIOCA ===== -->
+  <div class="screen" id="gioca">
+    <div class="screen-header" style="background:transparent">
+      <button class="back-btn" onclick="nav('home')">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+          <path d="M11 3.5 L5.5 9 L11 14.5" stroke="#1a2748" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <span class="screen-title">🎯 Quiz Natura</span>
+    </div>
+    <div class="quiz-scroll" id="quiz-container"></div>
+  </div>
+
+  <!-- ===== RESULT ===== -->
+  <div class="screen" id="result" style="background:white">
+    <div class="screen-header">
+      <button class="back-btn" onclick="nav('home')">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+          <path d="M11 3.5 L5.5 9 L11 14.5" stroke="#1a2748" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <span class="screen-title">Risultato</span>
+    </div>
+    <div class="result-body" id="result-body"></div>
+  </div>
+
+  <!-- ===== CHI SIAMO ===== -->
+  <div class="screen" id="chisiamo" style="background:white">
+    <div class="screen-header">
+      <button class="back-btn" onclick="nav('home')">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+          <path d="M11 3.5 L5.5 9 L11 14.5" stroke="#1a2748" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <span class="screen-title">Chi siamo</span>
+    </div>
+    <div class="cs-scroll" id="cs-content"></div>
+  </div>
+
+</div>
+
+<script>
+/* =========================================================
+   DATI
+   ========================================================= */
+const CARDS = [
+  { e:"🌞", t:"La Fotosintesi",           b:"Le piante usano luce solare, acqua e CO₂ per produrre zuccheri e rilasciare ossigeno. È la base di tutta la vita!" },
+  { e:"💧", t:"Il Ciclo dell'Acqua",      b:"L'acqua evapora, forma nuvole e torna come pioggia o neve. Un ciclo infinito che nutre tutti gli esseri viventi." },
+  { e:"🦁", t:"La Catena Alimentare",     b:"Ogni essere si nutre di altri: piante → erbivori → carnivori. Togliere anche solo un anello rompe l'equilibrio." },
+  { e:"🌴", t:"La Foresta Tropicale",     b:"L'Amazzonia ospita oltre il 10% di tutte le specie viventi. È il 'polmone verde' della Terra." },
+  { e:"🐝", t:"Api e Impollinazione",     b:"Le api trasportano il polline tra i fiori. Senza api, non ci sarebbe cibo per nessuno di noi." },
+  { e:"🦅", t:"Migrazione degli Uccelli", b:"Milioni di uccelli percorrono migliaia di km ogni anno, orientandosi col campo magnetico terrestre." },
+  { e:"🐟", t:"La Simbiosi",              b:"Due specie vivono insieme traendone beneficio. Esempio: il pesce pagliaccio e l'anemone di mare." },
+  { e:"🪸", t:"I Coralli",                b:"Le barriere coralline coprono l'1% degli oceani ma ospitano il 25% di tutte le specie marine." },
+  { e:"🦋", t:"La Biodiversità",          b:"La varietà di specie garantisce la stabilità degli ecosistemi. Più biodiversità = pianeta più sano." },
+  { e:"🌱", t:"Il Suolo Fertile",         b:"Un cucchiaino di terra sana contiene più batteri che persone sulla Terra. Il suolo è vivo!" },
+  { e:"🐛", t:"Gli Insetti",              b:"Oltre 1 milione di specie catalogate: il gruppo animale più numeroso. Fondamentali per la vita." },
+  { e:"🐋", t:"I Cetacei",                b:"Balene e delfini sono mammiferi marini che respirano aria. Le balene blu sono i più grandi animali mai vissuti." },
+  { e:"🌺", t:"Piante Carnivore",         b:"Crescono in terreni poveri e catturano insetti. La Venere acchiappamosche scatta in 0,1 secondi!" },
+  { e:"🍄", t:"Il Regno dei Funghi",      b:"Né piante né animali. Le loro reti sotterranee collegano le radici degli alberi come un internet segreto." },
+  { e:"🌊", t:"L'Ecosistema",             b:"Insieme di esseri viventi e ambiente. Rimuovere anche una sola specie può innescare effetti a cascata." },
+  { e:"🌍", t:"Il Ciclo del Carbonio",    b:"Il carbonio circola tra atmosfera, piante, animali e suolo. Bruciare combustibili fossili rompe questo equilibrio." },
+  { e:"🏜️", t:"La Vita nel Deserto",     b:"Il cammello sopravvive settimane senza acqua. Alcune piante aspettano anni prima di fiorire dopo rare piogge." },
+  { e:"🌿", t:"Le Mangrovie",             b:"Foreste costiere nell'acqua salata. Proteggono le coste, ospitano pesci giovani e assorbono molta CO₂." },
+  { e:"🦕", t:"L'Estinzione",             b:"Il 99% delle specie che hanno vissuto sulla Terra è già scomparso. Oggi le estinzioni avvengono 1.000 volte più veloce." },
+  { e:"🌡️", t:"Il Cambiamento Climatico",b:"La temperatura terrestre è salita di 1,2°C dall'era industriale. Anche mezzo grado in più stravolge gli ecosistemi." },
+];
+
+const QUIZ = [
+  { q:"Quante zampe ha un insetto adulto?",
+    a:["4 zampe","6 zampe","8 zampe","10 zampe"], c:1,
+    exp:"Tutti gli insetti adulti hanno esattamente 6 zampe. I ragni ne hanno 8 e appartengono agli aracnidi, non agli insetti!" },
+  { q:"Come si chiama il processo con cui le piante producono cibo usando la luce del sole?",
+    a:["Respirazione","Traspirazione","Fotosintesi","Digestione"], c:2,
+    exp:"La fotosintesi trasforma luce, acqua e CO₂ in zuccheri e ossigeno. Senza di essa, non esisterebbe la vita sulla Terra!" },
+  { q:"Qual è l'oceano più grande del mondo?",
+    a:["Atlantico","Indiano","Artico","Pacifico"], c:3,
+    exp:"Il Pacifico copre circa il 46% della superficie d'acqua della Terra. È più grande di tutti i continenti messi insieme!" },
+  { q:"Quale animale è il simbolo del WWF, la principale organizzazione per la protezione della natura?",
+    a:["L'elefante africano","Il panda gigante","La tigre del Bengala","Il gorilla"], c:1,
+    exp:"Il panda gigante è il simbolo del WWF dal 1961. Oggi vivono in libertà meno di 2.000 esemplari, solo nelle foreste di bambù della Cina." },
+  { q:"Come si chiama la trasformazione del bruco in farfalla?",
+    a:["Rigenerazione","Evoluzione","Metamorfosi","Mutazione"], c:2,
+    exp:"La metamorfosi completa ha 4 stadi: uovo → larva (bruco) → pupa (crisalide) → adulto (farfalla). Un vero miracolo della natura!" },
+  { q:"Quale gas producono le piante durante la fotosintesi?",
+    a:["Azoto","Anidride carbonica","Idrogeno","Ossigeno"], c:3,
+    exp:"Le piante assorbono CO₂ e rilasciano ossigeno. Ecco perché le foreste sono chiamate i 'polmoni' del nostro pianeta!" },
+  { q:"Come si chiama il gruppo di animali che include balene e delfini?",
+    a:["Pesci cartilaginei","Rettili marini","Cetacei","Crostacei"], c:2,
+    exp:"Balene e delfini sono cetacei: mammiferi che vivono in acqua, respirano aria e allattano i piccoli come noi!" },
+  { q:"Qual è l'animale terrestre più veloce al mondo?",
+    a:["Il leone","Il ghepardo","Il visone","Il cavallo da corsa"], c:1,
+    exp:"Il ghepardo raggiunge i 110–120 km/h in brevissimi scatti, ma si esaurisce in meno di un minuto. Deve avvicinarsi di nascosto!" },
+  { q:"Circa quanti anni può vivere una tartaruga gigante delle Galapagos?",
+    a:["Circa 30 anni","Circa 60 anni","Oltre 100 anni","Circa 500 anni"], c:2,
+    exp:"Le tartarughe giganti vivono oltre 100 anni. La più longeva documentata, 'Harriet', ha raggiunto i 175 anni di età!" },
+  { q:"Come si chiama la relazione in cui due specie diverse vivono insieme traendone reciproco beneficio?",
+    a:["Predazione","Parassitismo","Mutualismo","Competizione"], c:2,
+    exp:"Nel mutualismo entrambe le specie ne traggono vantaggio. I batteri nell'intestino ci aiutano a digerire e trovano cibo e riparo." },
+];
+
+/* =========================================================
+   NAVIGAZIONE
+   ========================================================= */
+let curScreen = 'home';
+let quiz = {idx:0, score:0, answered:false};
+
+function nav(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  curScreen = id;
+  if (id === 'gioca')    { quiz = {idx:0,score:0,answered:false}; renderQuiz(); }
+  if (id === 'chisiamo') renderCS();
+  if (id === 'natura')   renderCards();
+}
+
+/* =========================================================
+   FLASHCARDS
+   ========================================================= */
+function renderCards() {
+  document.getElementById('cards-container').innerHTML = CARDS.map((c,i) => `
+    <div class="card-wrap" onclick="this.classList.toggle('flipped')">
+      <div class="card-inner">
+        <div class="card-face card-front">
+          <span class="card-emoji">${c.e}</span>
+          <p class="card-title">${c.t}</p>
+          <p class="card-tap">tocca ↺</p>
+        </div>
+        <div class="card-face card-back">
+          <span class="card-num">${i+1}/20</span>
+          <span style="font-size:clamp(18px,5vw,24px);margin-bottom:6px">${c.e}</span>
+          <p class="card-back-text">${c.b}</p>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+/* =========================================================
+   QUIZ
+   ========================================================= */
+function renderQuiz() {
+  const total = QUIZ.length;
+  const q = QUIZ[quiz.idx];
+  const pct = (quiz.idx / total) * 100;
+  document.getElementById('quiz-container').innerHTML = `
+    <div class="quiz-prog-row">
+      <span class="prog-label">Domanda ${quiz.idx+1} di ${total}</span>
+      <div class="prog-bar"><div class="prog-fill" style="width:${pct}%"></div></div>
+    </div>
+    <div class="quiz-card">
+      <p class="quiz-q">${q.q}</p>
+      <div class="quiz-answers">
+        ${'ABCD'.split('').map((l,i) => `
+          <button class="ans-btn" id="a${i}" onclick="pick(${i})">
+            <span class="ans-letter">${l}</span>${q.a[i]}
+          </button>`).join('')}
+      </div>
+    </div>
+    <div class="explanation" id="exp">💡 ${q.exp}</div>
+    <button class="next-btn" id="nxt" onclick="nextQ()">
+      ${quiz.idx+1 < total ? 'Avanti →' : 'Vedi risultato 🎉'}
+    </button>
+  `;
+}
+
+function pick(idx) {
+  if (quiz.answered) return;
+  quiz.answered = true;
+  const q = QUIZ[quiz.idx];
+  if (idx === q.c) quiz.score++;
+  for (let i = 0; i < 4; i++) {
+    const b = document.getElementById('a'+i);
+    if (!b) continue;
+    b.disabled = true;
+    if (i === q.c) b.classList.add('correct');
+    else if (i === idx) b.classList.add('wrong');
+  }
+  document.getElementById('exp').style.display = 'block';
+  document.getElementById('nxt').style.display = 'block';
+}
+
+function nextQ() {
+  quiz.idx++;
+  quiz.answered = false;
+  if (quiz.idx >= QUIZ.length) { showResult(); return; }
+  renderQuiz();
+}
+
+function showResult() {
+  nav('result');
+  const s = quiz.score, total = QUIZ.length, r = s/total;
+  const emoji = r===1?'🏆':r>=.7?'🌟':r>=.5?'🌱':'📚';
+  const msg = r===1?'Sei un esperto di natura! Incredibile!':
+              r>=.7?'Ottimo lavoro! Conosci molto bene la natura!':
+              r>=.5?'Buon tentativo! Continua a esplorare!':
+                    'Non mollare, continua a imparare!';
+  document.getElementById('result-body').innerHTML = `
+    <div class="result-emoji">${emoji}</div>
+    <div class="result-score">${s}/${total}</div>
+    <p class="result-lbl">risposte corrette</p>
+    <p class="result-msg">${msg}</p>
+    <div class="result-btns">
+      <button class="btn-primary" onclick="nav('gioca')">Riprova 🔄</button>
+      <button class="btn-secondary" onclick="nav('home')">Torna alla home</button>
+    </div>
+  `;
+}
+
+/* =========================================================
+   CHI SIAMO
+   ========================================================= */
+function renderCS() {
+  document.getElementById('cs-content').innerHTML = `
+    <div class="cs-hero">
+      <h2 class="cs-hero-title">ECO App</h2>
+      <p class="cs-hero-sub">Ecosistema di Comunità = Opportunità</p>
+    </div>
+    <div>
+      <h3 class="cs-sec-title">🌱 Chi siamo</h3>
+      <p class="cs-sec-text">Siamo Pleiadi, un'associazione che crede nel potere dell'educazione ambientale per costruire comunità più sostenibili. Il progetto ECO nasce dall'idea che ogni persona — a qualsiasi età — può fare la differenza per il nostro pianeta.</p>
+    </div>
+    <div>
+      <h3 class="cs-sec-title">🎯 La nostra missione</h3>
+      <p class="cs-sec-text">Vogliamo avvicinare i giovani alla natura attraverso esperienze interattive, giochi e sfide. Crediamo che conoscere significa amare, e amare significa proteggere. La curiosità è il primo passo verso il cambiamento.</p>
+    </div>
+    <div>
+      <h3 class="cs-sec-title">🤝 Il Progetto ECO</h3>
+      <p class="cs-sec-text">ECO (Ecosistema di Comunità = Opportunità) è un progetto Erasmus+ che unisce giovani da tutta Europa in attività di scoperta della natura, cittadinanza attiva e sostenibilità ambientale. Insieme siamo più forti.</p>
+    </div>
+    <div>
+      <h3 class="cs-sec-title">🌍 I nostri valori</h3>
+      <div class="cs-tags">
+        <span class="tag tag-green">Sostenibilità</span>
+        <span class="tag tag-amber">Inclusione</span>
+        <span class="tag tag-terra">Creatività</span>
+        <span class="tag tag-green">Cittadinanza attiva</span>
+        <span class="tag tag-amber">Rispetto per la natura</span>
+        <span class="tag tag-terra">Cooperazione</span>
+      </div>
+    </div>
+    <div>
+      <h3 class="cs-sec-title">📬 Contattaci</h3>
+      <p class="cs-sec-text">Vuoi partecipare alle nostre attività o portare il progetto ECO nella tua scuola o associazione? Scrivici! Siamo sempre felici di accogliere nuovi esploratori della natura.</p>
+    </div>
+  `;
+}
+
+/* =========================================================
+   INIT
+   ========================================================= */
+renderCards();
+</script>
+</body>
+</html>
