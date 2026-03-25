@@ -63,39 +63,37 @@ html,body{
 
 /* ========= HOME ========= */
 
-/* Sfondo illustrativo: immagine che copre il 63% superiore */
+/* Sfondo: copre l'intero schermo — la curva bianca è quella dell'immagine */
 .home-bg{
   position:absolute;
-  inset:0 0 37% 0;        /* lascia spazio al pannello bianco */
+  inset:0;
   background-image: url('bg.png');
   background-size:cover;
   background-position:center top;
   background-repeat:no-repeat;
   z-index:1;
 }
-/* Fallback colore se l'immagine non è ancora disponibile */
 .home-bg-fallback{
   position:absolute;
-  inset:0 0 37% 0;
+  inset:0;
   background:var(--bg);
   z-index:0;
 }
 
-/* Bottom panel */
+/* Bottom panel: sfondo e curva vengono dall'immagine, il div è trasparente */
 .bottom-panel{
   position:absolute;
   bottom:0;left:0;right:0;
   height:38%;
-  background:var(--white);
-  border-radius:36px 36px 0 0;
+  background:transparent;
+  border-radius:0;
+  box-shadow:none;
   z-index:5;
   display:flex;flex-direction:column;
   align-items:center;
   justify-content:center;
-  /* env() aggiunge automaticamente spazio per l'home indicator su iPhone */
   padding:0 8% calc(6% + env(safe-area-inset-bottom, 0px));
   gap:6px;
-  box-shadow:0 -6px 24px rgba(0,0,0,.08);
 }
 .home-title{
   font-family:'Playfair Display',serif;
