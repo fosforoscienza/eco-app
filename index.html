@@ -62,13 +62,17 @@ html,body{
 .screen.active{display:flex}
 
 /* ========= HOME ========= */
+#home{ background:var(--white); }
 
-/* Sfondo: copre l'intero schermo — la curva bianca è quella dell'immagine */
+/* Sfondo: 100% auto = scala sull'intera larghezza senza tagli orizzontali.
+   L'immagine (1080×1920, 9:16) è più larga rispetto al container (9:19.5):
+   con "cover" verrebbe tagliata di ~47px per lato e il testo a destra uscirebbe.
+   Con "100% auto" non c'è taglio, il testo resta ~24px dal bordo. */
 .home-bg{
   position:absolute;
   inset:0;
   background-image: url('bg.png');
-  background-size:cover;
+  background-size:100% auto;
   background-position:center top;
   background-repeat:no-repeat;
   z-index:1;
@@ -76,7 +80,7 @@ html,body{
 .home-bg-fallback{
   position:absolute;
   inset:0;
-  background:var(--bg);
+  background:var(--white); /* bianco: copre la zona sotto l'immagine (invariata) */
   z-index:0;
 }
 
