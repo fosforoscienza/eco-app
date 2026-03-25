@@ -217,6 +217,16 @@ html,body{
 
 /* ========= QUIZ ========= */
 #gioca{background:var(--bg)}
+.quiz-intro{
+  padding:0 clamp(12px,calc(var(--aw)*0.035),18px) 10px;
+  flex-shrink:0;
+}
+.quiz-intro-text{
+  font-size:clamp(11px,calc(var(--aw)*0.031),14px);
+  color:#404858;font-weight:700;line-height:1.55;
+  background:white;border-radius:12px;
+  padding:10px 12px;
+}
 .quiz-scroll{flex:1;overflow-y:auto;padding:0 clamp(12px,calc(var(--aw)*0.035),16px) 20px;display:flex;flex-direction:column;gap:12px}
 .quiz-scroll::-webkit-scrollbar{width:3px}
 .quiz-scroll::-webkit-scrollbar-thumb{background:rgba(0,0,0,.15);border-radius:3px}
@@ -497,6 +507,14 @@ html,body{
         </svg>
       </button>
       <span class="screen-title">Quiz Natura</span>
+    </div>
+    <div class="quiz-intro">
+      <p class="quiz-intro-text">
+        10 domande sulla natura per mettere alla prova le tue conoscenze.
+        Leggi con attenzione e scegli la risposta che ritieni corretta:
+        dopo ogni risposta troverai una breve spiegazione.
+        Alla fine scopri il tuo punteggio!
+      </p>
     </div>
     <div class="quiz-scroll" id="quiz-container"></div>
   </div>
