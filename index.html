@@ -2,7 +2,7 @@
 <html lang="it">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -45,7 +45,13 @@ html,body{
 
 @media(max-width:430px){
   html,body{background:var(--bg)}
-  #app{--aw:100vw;height:100vh;border-radius:0;box-shadow:none}
+  #app{
+    --aw:100vw;
+    height:100vh;        /* fallback per browser senza dvh */
+    height:100dvh;       /* Safari 16+ / Chrome 108+: esclude la barra browser */
+    border-radius:0;
+    box-shadow:none;
+  }
 }
 
 .screen{
@@ -86,9 +92,9 @@ html,body{
   display:flex;flex-direction:column;
   align-items:center;
   justify-content:center;
-  padding:0 8% 6%;
+  /* env() aggiunge automaticamente spazio per l'home indicator su iPhone */
+  padding:0 8% calc(6% + env(safe-area-inset-bottom, 0px));
   gap:6px;
-  /* leggera ombra verso l'alto per staccare dall'immagine */
   box-shadow:0 -6px 24px rgba(0,0,0,.08);
 }
 .home-title{
@@ -123,7 +129,9 @@ html,body{
 /* ========= INNER SCREENS ========= */
 .screen-header{
   display:flex;align-items:center;
-  padding:clamp(14px,calc(var(--aw)*0.04),22px) clamp(14px,calc(var(--aw)*0.045),20px) 10px;
+  /* env() aggiunge automaticamente lo spazio per Dynamic Island / notch */
+  padding:calc(clamp(14px,calc(var(--aw)*0.04),22px) + env(safe-area-inset-top, 0px))
+          clamp(14px,calc(var(--aw)*0.045),20px) 10px;
   gap:10px;flex-shrink:0;
 }
 .back-btn{
