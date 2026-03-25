@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ECO App — Statistiche</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:#0f1117;color:#e8eaf0;min-height:100vh}
+
+/* ── LOGIN ── */
+#login{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  min-height:100vh;gap:16px;padding:24px;
+}
+#login h1{font-size:22px;font-weight:700;color:#96c23c;letter-spacing:0.02em}
+#login p{font-size:13px;color:#7a8090}
+#pw-wrap{display:flex;gap:8px;margin-top:4px}
+#pw-input{
+  padding:10px 16px;border-radius:10px;border:1px solid #2a2d3a;
+  background:#1a1d27;color:#e8eaf0;font-size:14px;width:220px;
+  outline:none;transition:border-color .2s;
+}
+#pw-input:focus{border-color:#96c23c}
+#pw-btn{
+  padding:10px 20px;background:#96c23c;color:#fff;border:none;
+  border-radius:10px;font-weight:700;font-size:14px;cursor:pointer;
+}
+#pw-btn:hover{background:#7da832}
+#pw-err{color:#e05050;font-size:12px;min-height:16px}
+
+/* ── DASHBOARD ── */
+#dashboard{display:none;max-width:860px;margin:0 auto;padding:24px 16px 60px}
+header{display:flex;align-items:center;justify-content:space-between;margin-bottom:28px;flex-wrap:wrap;gap:12px}
+header h1{font-size:20px;font-weight:800;color:#96c23c}
+header p{font-size:12px;color:#6a7080}
+.btn-sm{
+  padding:7px 14px;background:#1e2130;border:1px solid #2a2d3a;color:#aab0c0;
+  border-radius:8px;font-size:12px;cursor:pointer;font-weight:600;
+}
+.btn-sm:hover{background:#252838;color:#fff}
+.btn-danger{border-color:#5a2020;color:#e05050}
+.btn-danger:hover{background:#3a1515;color:#ff6060}
+
+/* ── CARDS KPI ── */
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;margin-bottom:28px}
+.kpi{
+  background:#1a1d27;border:1px solid #2a2d3a;border-radius:14px;
+  padding:16px;text-align:center;
+}
+.kpi-val{font-size:32px;font-weight:800;color:#96c23c;line-height:1}
+.kpi-label{font-size:11px;color:#6a7080;margin-top:6px;font-weight:600;text-transform:uppercase;letter-spacing:0.05em}
+
+/* ── SEZIONE TITOLO ── */
+.sec-title{font-size:13px;font-weight:700;color:#8090a0;text-transform:uppercase;letter-spacing:0.08em;margin:0 0 12px}
+
+/* ── BAR CHARTS ── */
+.chart-card{background:#1a1d27;border:1px solid #2a2d3a;border-radius:14px;padding:20px;margin-bottom:16px}
+.bar-row{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.bar-row:last-child{margin-bottom:0}
+.bar-label{font-size:12px;color:#aab0c0;font-weight:600;width:100px;flex-shrink:0;text-align:right}
+.bar-wrap{flex:1;background:#12141c;border-radius:6px;height:22px;overflow:hidden}
+.bar-fill{height:100%;border-radius:6px;transition:width .6s ease;min-width:2px;display:flex;align-items:center;padding-left:8px}
+.bar-val{font-size:11px;font-weight:700;color:rgba(255,255,255,.85);white-space:nowrap}
+
+/* ── LOG TABLE ── */
+.log-card{background:#1a1d27;border:1px solid #2a2d3a;border-radius:14px;padding:20px;margin-bottom:16px;overflow:hidden}
+.log-scroll{max-height:260px;overflow-y:auto}
+.log-scroll::-webkit-scrollbar{width:4px}
+.log-scroll::-webkit-scrollbar-thumb{background:#2a2d3a;border-radius:2px}
+table{width:100%;border-collapse:collapse;font-size:12px}
+th{color:#6a7080;font-weight:700;text-align:left;padding:6px 8px;border-bottom:1px solid #2a2d3a;text-transform:uppercase;letter-spacing:0.05em;font-size:10px}
+td{padding:6px 8px;border-bottom:1px solid #1e2130;color:#c0c8d8}
+tr:last-child td{border-bottom:none}
+.tag{display:inline-block;padding:2px 8px;border-radius:20px;font-size:10px;font-weight:700}
+
+/* ── TIME ── */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
+@media(max-width:520px){.two-col{grid-template-columns:1fr}}
+
+/* ── FOOTER ── */
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:20px}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="login">
+  <h1>ECO App · Statistiche</h1>
+  <p>Accesso riservato</p>
+  <div id="pw-err"></div>
+  <div id="pw-wrap">
+    <input id="pw-input" type="password" placeholder="Password" onkeydown="if(event.key==='Enter')checkPw()">
+    <button id="pw-btn" onclick="checkPw()">Accedi</button>
+  </div>
+</div>
+
+<!-- DASHBOARD -->
+<div id="dashboard">
+  <header>
+    <div>
+      <h1>ECO App — Statistiche</h1>
+      <p id="hdr-sub"></p>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button class="btn-sm" onclick="exportData()">Esporta JSON</button>
+      <button class="btn-sm btn-danger" onclick="resetData()">Reset dati</button>
+    </div>
+  </header>
+
+  <!-- KPI -->
+  <div class="kpi-grid">
+    <div class="kpi"><div class="kpi-val" id="k-sessions">—</div><div class="kpi-label">Sessioni</div></div>
+    <div class="kpi"><div class="kpi-val" id="k-pageviews">—</div><div class="kpi-label">Navigazioni</div></div>
+    <div class="kpi"><div class="kpi-val" id="k-quiz">—</div><div class="kpi-label">Quiz completati</div></div>
+    <div class="kpi"><div class="kpi-val" id="k-cards">—</div><div class="kpi-label">Card girate</div></div>
+    <div class="kpi"><div class="kpi-val" id="k-schede">—</div><div class="kpi-label">Schede aperte</div></div>
+    <div class="kpi"><div class="kpi-val" id="k-guida">—</div><div class="kpi-label">Guide scaricate</div></div>
+  </div>
+
+  <!-- VISITE PER SEZIONE -->
+  <p class="sec-title">Visite per sezione</p>
+  <div class="chart-card" id="chart-sections"></div>
+
+  <!-- TEMPO PER SEZIONE -->
+  <div class="two-col">
+    <div>
+      <p class="sec-title">Tempo totale (min)</p>
+      <div class="chart-card" id="chart-time"></div>
+    </div>
+    <div>
+      <p class="sec-title">Tempo medio / visita (sec)</p>
+      <div class="chart-card" id="chart-avg"></div>
+    </div>
+  </div>
+
+  <!-- LOG RECENTE -->
+  <p class="sec-title">Attività recente (ultime 50 navigazioni)</p>
+  <div class="log-card">
+    <div class="log-scroll">
+      <table>
+        <thead><tr><th>#</th><th>Sezione</th><th>Data</th><th>Ora</th></tr></thead>
+        <tbody id="log-body"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="actions">
+    <button class="btn-sm" onclick="location.reload()">Aggiorna</button>
+    <button class="btn-sm" onclick="window.close()">Chiudi</button>
+  </div>
+</div>
+
+<script>
+const PASS = 'ECOadmin24';
+const SK = 'eco_stats_v1';
+
+function checkPw() {
+  const v = document.getElementById('pw-input').value;
+  if (v === PASS) {
+    document.getElementById('login').style.display = 'none';
+    document.getElementById('dashboard').style.display = 'block';
+    loadDashboard();
+  } else {
+    document.getElementById('pw-err').textContent = 'Password errata';
+    document.getElementById('pw-input').value = '';
+    document.getElementById('pw-input').focus();
+  }
+}
+
+// ── SECTION META ──────────────────────────────────────────────
+const SECTION_LABELS = {
+  home:'Home', natura:'Natura', gioca:'Quiz', chisiamo:'Chi siamo',
+  progetto:'Progetto', didattica:'Didattica', guida:'Guida'
+};
+const SECTION_COLORS = {
+  home:'#3d82b0', natura:'#78b03d', gioca:'#f5a828', chisiamo:'#c95838',
+  progetto:'#3dab8a', didattica:'#8a5aab', guida:'#e0a030'
+};
+
+// ── HELPERS ───────────────────────────────────────────────────
+function getStats() {
+  try { return JSON.parse(localStorage.getItem(SK)); } catch(e) { return null; }
+}
+function fmtDate(ts) {
+  return new Date(ts).toLocaleDateString('it-IT',{day:'2-digit',month:'2-digit',year:'2-digit'});
+}
+function fmtTime(ts) {
+  return new Date(ts).toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit'});
+}
+function secToMin(s) { return (s/60).toFixed(1); }
+
+// ── BAR CHART ─────────────────────────────────────────────────
+function barChart(containerId, data, colorFn, valFmt) {
+  const el = document.getElementById(containerId);
+  const max = Math.max(...Object.values(data), 1);
+  el.innerHTML = Object.entries(data).map(([k,v]) => `
+    <div class="bar-row">
+      <span class="bar-label">${SECTION_LABELS[k]||k}</span>
+      <div class="bar-wrap">
+        <div class="bar-fill" style="width:${Math.round(v/max*100)}%;background:${colorFn(k)}">
+          <span class="bar-val">${valFmt(v)}</span>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ── LOAD DASHBOARD ────────────────────────────────────────────
+function loadDashboard() {
+  const s = getStats();
+  if (!s) {
+    document.getElementById('dashboard').innerHTML = '<div style="text-align:center;padding:60px;color:#6a7080">Nessun dato ancora. Apri prima l\'app ECO.</div>';
+    return;
+  }
+
+  // Header
+  const first = s.firstVisit ? fmtDate(s.firstVisit) : '—';
+  const last  = s.lastVisit  ? fmtDate(s.lastVisit)  : '—';
+  document.getElementById('hdr-sub').textContent = `Prima visita: ${first} · Ultima: ${last}`;
+
+  // KPI
+  const totalViews = Object.values(s.sections).reduce((a,b)=>a+b, 0);
+  document.getElementById('k-sessions').textContent = s.sessions || 0;
+  document.getElementById('k-pageviews').textContent = totalViews;
+  document.getElementById('k-quiz').textContent = s.quizDone || 0;
+  document.getElementById('k-cards').textContent = s.cardFlips || 0;
+  document.getElementById('k-schede').textContent = s.schedeFlips || 0;
+  document.getElementById('k-guida').textContent = s.sections.guida || 0;
+
+  // Chart: visite sezioni
+  barChart('chart-sections', s.sections, k => SECTION_COLORS[k]||'#555', v => v);
+
+  // Chart: tempo totale (min)
+  const timeMin = {};
+  Object.entries(s.timeSpent||{}).forEach(([k,v]) => timeMin[k] = parseFloat(secToMin(v)));
+  barChart('chart-time', timeMin, k => SECTION_COLORS[k]||'#555', v => v+'m');
+
+  // Chart: tempo medio / visita (sec)
+  const timeAvg = {};
+  Object.entries(s.timeSpent||{}).forEach(([k,v]) => {
+    const visits = s.sections[k] || 1;
+    timeAvg[k] = Math.round(v / visits);
+  });
+  barChart('chart-avg', timeAvg, k => SECTION_COLORS[k]||'#555', v => v+'s');
+
+  // Log table
+  const log = (s.log || []).slice(-50).reverse();
+  const tbody = document.getElementById('log-body');
+  tbody.innerHTML = log.map((entry, i) => {
+    const label = SECTION_LABELS[entry.s] || entry.s;
+    const color = SECTION_COLORS[entry.s] || '#555';
+    return `<tr>
+      <td style="color:#4a5060">${log.length - i}</td>
+      <td><span class="tag" style="background:${color}22;color:${color}">${label}</span></td>
+      <td>${fmtDate(entry.t)}</td>
+      <td>${fmtTime(entry.t)}</td>
+    </tr>`;
+  }).join('');
+}
+
+// ── EXPORT ────────────────────────────────────────────────────
+function exportData() {
+  const s = getStats();
+  if (!s) return alert('Nessun dato da esportare.');
+  const blob = new Blob([JSON.stringify(s, null, 2)], {type:'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `eco-stats-${new Date().toISOString().slice(0,10)}.json`;
+  a.click();
+}
+
+// ── RESET ─────────────────────────────────────────────────────
+function resetData() {
+  if (!confirm('Sei sicuro? Tutti i dati di statistiche verranno cancellati.')) return;
+  localStorage.removeItem(SK);
+  location.reload();
+}
+</script>
+</body>
+</html>

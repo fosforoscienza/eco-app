@@ -506,7 +506,7 @@ html,body{
           <button class="btn btn-purple" onclick="nav('didattica')">Didattica</button>
         </div>
       </div>
-      <p class="app-version">v2.18</p>
+      <p class="app-version">v2.19</p>
     </div>
   </div>
 
@@ -670,6 +670,52 @@ const QUIZ = [
 ];
 
 /* =========================================================
+   STATS TRACKING
+   ========================================================= */
+const _SK = 'eco_stats_v1';
+function _getStats() {
+  try { return JSON.parse(localStorage.getItem(_SK)) || _freshStats(); } catch(e) { return _freshStats(); }
+}
+function _freshStats() {
+  return { sessions:0, firstVisit:Date.now(), lastVisit:Date.now(),
+    sections:{home:0,natura:0,gioca:0,chisiamo:0,progetto:0,didattica:0,guida:0},
+    timeSpent:{home:0,natura:0,gioca:0,chisiamo:0,progetto:0,didattica:0},
+    quizDone:0, cardFlips:0, schedeFlips:0, log:[] };
+}
+function _saveStats(s) { try { localStorage.setItem(_SK, JSON.stringify(s)); } catch(e) {} }
+
+let _curSec = 'home', _secStart = Date.now();
+
+function _trackNav(id) {
+  const s = _getStats();
+  const spent = Math.round((Date.now() - _secStart) / 1000);
+  if (s.timeSpent[_curSec] !== undefined) s.timeSpent[_curSec] += spent;
+  _curSec = id; _secStart = Date.now();
+  if (s.sections[id] !== undefined) s.sections[id]++;
+  s.log.push({s:id, t:Date.now()});
+  if (s.log.length > 300) s.log = s.log.slice(-300);
+  s.lastVisit = Date.now();
+  _saveStats(s);
+}
+function _trackEvent(evt) {
+  const s = _getStats();
+  if (evt === 'quiz') s.quizDone++;
+  else if (evt === 'cardFlip') s.cardFlips++;
+  else if (evt === 'schedaFlip') s.schedeFlips++;
+  _saveStats(s);
+}
+// Sessione iniziale
+(function() {
+  const s = _getStats();
+  if (!s.lastVisit || Date.now() - s.lastVisit > 30*60*1000) s.sessions++;
+  s.sections.home++; s.lastVisit = Date.now();
+  if (!s.firstVisit) s.firstVisit = Date.now();
+  s.log.push({s:'home', t:Date.now()});
+  if (s.log.length > 300) s.log = s.log.slice(-300);
+  _saveStats(s);
+})();
+
+/* =========================================================
    NAVIGAZIONE
    ========================================================= */
 let curScreen = 'home';
@@ -679,6 +725,7 @@ function nav(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
   curScreen = id;
+  _trackNav(id);
   if (id === 'gioca')     { quiz = {idx:0,score:0,answered:false}; renderQuiz(); }
   if (id === 'chisiamo')  renderCS();
   if (id === 'natura')    renderCards();
@@ -687,6 +734,8 @@ function nav(id) {
 }
 
 function openGuida() {
+  _trackEvent('guida');
+  const s = _getStats(); s.sections.guida++; _saveStats(s);
   window.open('https://www.ecosistemadicomunita.it/wp-content/uploads/2025/01/Leco-del-fiaralosco_web-1.pdf','_blank');
 }
 
@@ -695,7 +744,7 @@ function openGuida() {
    ========================================================= */
 function renderCards() {
   document.getElementById('cards-container').innerHTML = CARDS.map((c,i) => `
-    <div class="card-wrap" onclick="this.classList.toggle('flipped')">
+    <div class="card-wrap" onclick="this.classList.toggle('flipped');_trackEvent('cardFlip')">
       <div class="card-inner">
         <div class="card-face card-front">
           <span class="card-emoji">${c.e}</span>
@@ -765,6 +814,7 @@ function nextQ() {
 
 function showResult() {
   nav('result');
+  _trackEvent('quiz');
   const s = quiz.score, total = QUIZ.length, r = s/total;
   const emoji = r===1?'🏆':r>=.7?'🌟':r>=.5?'🌱':'📚';
   const msg = r===1?'Sei un esperto di natura! Incredibile!':
@@ -877,7 +927,7 @@ const SCHEDE = [
 
 function renderDidattica() {
   document.getElementById('didattica-container').innerHTML = SCHEDE.map((s,i) => `
-    <div class="card-wrap" onclick="this.classList.toggle('flipped')">
+    <div class="card-wrap" onclick="this.classList.toggle('flipped');_trackEvent('schedaFlip')">
       <div class="card-inner">
         <div class="card-face card-front">
           <span class="card-emoji">${s.e}</span>
