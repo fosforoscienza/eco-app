@@ -186,7 +186,7 @@ async function supaFetch(path) {
 
 // ── HELPERS ───────────────────────────────────────────────────
 function fmtDate(ts) {
-  return new Date(ts).toLocaleDateString('it-IT',{day:'2-digit',month:'2-digit',year:'2-digit'});
+  return new Date(ts).toLocaleDateString('it-IT',{day:'2-digit',month:'2-digit',year:'numeric'});
 }
 function fmtTime(ts) {
   return new Date(ts).toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit'});
