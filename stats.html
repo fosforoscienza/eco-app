@@ -104,7 +104,9 @@ tr:last-child td{border-bottom:none}
     </div>
     <div class="hdr-btns">
       <span id="refresh-countdown" style="font-size:11px;color:#4a5060;align-self:center"></span>
+      <span id="insert-status" style="font-size:11px;align-self:center"></span>
       <button class="btn-sm" onclick="manualRefresh()">↻ Aggiorna ora</button>
+      <button class="btn-sm" onclick="testInsert()">🔍 Test insert</button>
       <button class="btn-sm btn-danger" onclick="resetLocal()">Reset locale</button>
     </div>
   </header>
@@ -373,6 +375,43 @@ function resetLocal() {
   if (!confirm('Cancella i dati locali di questo dispositivo?')) return;
   localStorage.removeItem(SK);
   loadDashboard();
+}
+
+// ── TEST INSERT ───────────────────────────────────────────────
+async function testInsert() {
+  const el = document.getElementById('insert-status');
+  el.textContent = '⏳ test…';
+  el.style.color = '#6a7080';
+  try {
+    const r = await fetch(SUPA_URL + '/rest/v1/eco_events', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': SUPA_KEY,
+        'Authorization': 'Bearer ' + SUPA_KEY,
+        'Prefer': 'return=minimal'
+      },
+      body: JSON.stringify({
+        session_id: 'stats-test',
+        section: 'test',
+        event_type: 'test',
+        time_on_prev_sec: 0
+      })
+    });
+    if (r.ok || r.status === 201) {
+      el.textContent = '✅ INSERT OK';
+      el.style.color = '#4ade80';
+      setTimeout(() => loadDashboard(true), 500);
+    } else {
+      const body = await r.text();
+      el.textContent = `❌ INSERT fail ${r.status}`;
+      el.style.color = '#e05050';
+      alert(`INSERT fallito (${r.status}).\n\n${body}\n\nVai su Supabase → SQL Editor e incolla:\n\ncreate policy "anon_insert" on eco_events for insert to anon with check (true);\ncreate policy "anon_select" on eco_events for select to anon using (true);`);
+    }
+  } catch(e) {
+    el.textContent = '❌ Errore rete';
+    el.style.color = '#e05050';
+  }
 }
 </script>
 </body>

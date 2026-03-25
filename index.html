@@ -672,8 +672,8 @@ const QUIZ = [
 /* =========================================================
    SUPABASE CONFIG — sostituisci con i tuoi valori
    ========================================================= */
-const _SUPA_URL = 'https://INSERISCI_QUI.supabase.co';
-const _SUPA_KEY = 'INSERISCI_QUI_ANON_KEY';
+const _SUPA_URL = 'https://fyufzrqiurkordeughzx.supabase.co';
+const _SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ5dWZ6cnFpdXJrb3JkZXVnaHp4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ0NTUyMTYsImV4cCI6MjA5MDAzMTIxNn0.tj2hGhLMfbQUdsPfwTFcTIp_M1UlDq3c7g1xayOXyrk';
 const _SUPA_ON  = !_SUPA_URL.includes('INSERISCI');
 
 // Session ID univoco per questa sessione browser
@@ -692,7 +692,7 @@ const _SID = (()=>{
 async function _supaInsert(section, eventType, timeOnPrev) {
   if (!_SUPA_ON) return;
   try {
-    fetch(_SUPA_URL+'/rest/v1/eco_events', {
+    const r = await fetch(_SUPA_URL+'/rest/v1/eco_events', {
       method:'POST',
       headers:{
         'Content-Type':'application/json',
@@ -707,7 +707,8 @@ async function _supaInsert(section, eventType, timeOnPrev) {
         time_on_prev_sec: timeOnPrev || 0
       })
     });
-  } catch(e) {}
+    if (!r.ok) console.warn('[ECO] Supabase insert failed', r.status, section, eventType);
+  } catch(e) { console.warn('[ECO] Supabase insert error', e.message); }
 }
 
 /* =========================================================
