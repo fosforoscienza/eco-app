@@ -405,7 +405,44 @@ html,body{
 
 /* ========= DIDATTICA ========= */
 #didattica{background:var(--bg)}
-.card-back-purple{background:#7a4a9a;transform:rotateY(180deg)}
+.did-intro{
+  padding:0 clamp(12px,calc(var(--aw)*0.035),18px) 10px;
+  flex-shrink:0;
+}
+.did-intro-text{
+  font-size:clamp(11px,calc(var(--aw)*0.031),14px);
+  color:#404858;font-weight:700;line-height:1.55;
+  background:white;border-radius:12px;
+  padding:10px 12px;margin-bottom:6px;
+}
+.did-intro-hint{
+  font-size:clamp(10px,calc(var(--aw)*0.026),12px);
+  color:#9a6abf;font-weight:700;
+  padding-left:4px;
+}
+.card-back-purple{
+  background:#7a4a9a;
+  transform:rotateY(180deg);
+  /* override centrato: distribuisce spazio per il bottone */
+  justify-content:flex-start !important;
+  padding-top:clamp(10px,calc(var(--aw)*0.03),14px) !important;
+  gap:4px;
+}
+.card-dl-btn{
+  margin-top:auto;
+  width:100%;
+  padding:6px 4px;
+  border:1.5px solid rgba(255,255,255,.6);
+  border-radius:8px;
+  background:rgba(255,255,255,.15);
+  font-family:'Nunito',sans-serif;
+  font-size:clamp(9px,calc(var(--aw)*0.024),11px);
+  font-weight:800;color:white;
+  cursor:pointer;
+  transition:background .15s;
+  flex-shrink:0;
+}
+.card-dl-btn:active{background:rgba(255,255,255,.3)}
 </style>
 </head>
 <body>
@@ -513,7 +550,16 @@ html,body{
       </button>
       <span class="screen-title">📚 Schede Didattiche</span>
     </div>
-    <p class="card-hint">Tocca le schede per approfondire!</p>
+
+    <!-- Testo introduttivo -->
+    <div class="did-intro">
+      <p class="did-intro-text">
+        Sei schede per esplorare la natura da angolazioni diverse: dal fondo del mare alle radici degli alberi,
+        dagli insetti ingegneri alla biodiversità che ci circonda.
+      </p>
+      <p class="did-intro-hint">Tocca una scheda per leggere di più, poi scarica il PDF completo.</p>
+    </div>
+
     <div class="cards-grid" id="didattica-container"></div>
   </div>
 
@@ -769,18 +815,24 @@ function renderProgetto() {
    DIDATTICA
    ========================================================= */
 const SCHEDE = [
-  { e:"🦋", t:"Biomimetica",      sub:"Nature Inspired",
-    b:"Gli organismi viventi risolvono problemi attraverso milioni di anni di evoluzione. La biomimetica studia queste soluzioni per innovare tecnologia e design." },
-  { e:"🕸️", t:"Ecosistemi",       sub:"Green Connections",
-    b:"Un ecosistema è formato da componenti biotici e abiotici in equilibrio. Ogni essere ha un ruolo: le catene alimentari e i servizi ecosistemici ci sostengono tutti." },
-  { e:"🌊", t:"Clima e Oceani",    sub:"Antropocene Marino",
-    b:"I combustibili fossili alterano il clima e acidificano gli oceani. Gli ecosistemi polari sono in collasso: scioglimento dei ghiacciai e perdita di habitat unici." },
-  { e:"🪱", t:"Biologia del Suolo",sub:"Traffico Sotterraneo",
-    b:"I decompositori — batteri, funghi, lombrichi — trasformano la materia organica in nutrimento. Senza di loro, il suolo fertile cesserebbe di esistere." },
-  { e:"🌿", t:"Erbario",           sub:"Scoperta & Natura",
-    b:"Le collezioni storiche di piante sono strumenti scientifici preziosi. Permettono di documentare la biodiversità nel tempo e monitorare i cambiamenti della flora." },
-  { e:"🌸", t:"Biodiversità",      sub:"Natura Affascinante",
-    b:"La biodiversità comprende la varietà genetica, di specie e di ecosistemi. Ogni specie, anche la più piccola, è un tassello insostituibile della rete della vita." },
+  { e:"🦋", t:"Biomimetica",       sub:"Ispirati dalla natura",
+    b:"Gli organismi viventi risolvono problemi attraverso milioni di anni di evoluzione. La biomimetica studia queste soluzioni per innovare tecnologia e design.",
+    pdf:"https://www.ecosistemadicomunita.it/wp-content/uploads/2024/08/Ispirati-dalla-natura_red.pdf" },
+  { e:"🕸️", t:"Ecosistemi",        sub:"Connessioni verdi",
+    b:"Un ecosistema è formato da componenti biotici e abiotici in equilibrio. Ogni essere ha un ruolo: le catene alimentari e i servizi ecosistemici ci sostengono tutti.",
+    pdf:"https://www.ecosistemadicomunita.it/wp-content/uploads/2024/08/Connessioni-verdi_red.pdf" },
+  { e:"🌊", t:"Mare e Antropocene", sub:"Il mare nell'Antropocene",
+    b:"I combustibili fossili alterano il clima e acidificano gli oceani. Gli ecosistemi marini e polari sono in crisi: riscaldamento, scioglimento e perdita di biodiversità.",
+    pdf:"https://www.ecosistemadicomunita.it/wp-content/uploads/2024/08/Il-mare-nellantropocene_red.pdf" },
+  { e:"🪱", t:"Biologia del Suolo", sub:"Un sottosuolo trafficato",
+    b:"I decompositori — batteri, funghi, lombrichi — trasformano la materia organica in nutrimento. Senza di loro, il suolo fertile cesserebbe di esistere.",
+    pdf:"https://www.ecosistemadicomunita.it/wp-content/uploads/2024/08/Un-sottosuolo-trafficato_red.pdf" },
+  { e:"🌿", t:"Erbario",            sub:"Una storia di scoperte e natura",
+    b:"Le collezioni storiche di piante sono strumenti scientifici preziosi: documentano la biodiversità nel tempo e permettono di monitorare i cambiamenti della flora.",
+    pdf:"https://www.ecosistemadicomunita.it/wp-content/uploads/2024/08/Una-storia-di-scoperte-e-natura_red.pdf" },
+  { e:"🌸", t:"Biodiversità",       sub:"Affascinante natura",
+    b:"La biodiversità comprende la varietà genetica, di specie e di ecosistemi. Ogni specie, anche la più piccola, è un tassello insostituibile della rete della vita.",
+    pdf:"https://www.ecosistemadicomunita.it/wp-content/uploads/2024/08/Affascinante-natura_red.pdf" },
 ];
 
 function renderDidattica() {
@@ -790,13 +842,17 @@ function renderDidattica() {
         <div class="card-face card-front">
           <span class="card-emoji">${s.e}</span>
           <p class="card-title">${s.t}</p>
-          <p class="card-tap" style="color:#8a5aab;font-weight:700">${s.sub}</p>
-          <p class="card-tap" style="margin-top:6px">tocca ↺</p>
+          <p class="card-tap" style="color:#8a5aab;font-weight:700;margin-top:3px">${s.sub}</p>
+          <p class="card-tap" style="margin-top:5px">tocca ↺</p>
         </div>
         <div class="card-face card-back-purple">
           <span class="card-num">${i+1}/6</span>
-          <span style="font-size:clamp(18px,5vw,24px);margin-bottom:6px">${s.e}</span>
-          <p class="card-back-text">${s.b}</p>
+          <span style="font-size:clamp(16px,4.5vw,22px);margin-bottom:4px">${s.e}</span>
+          <p class="card-back-text" style="flex:1">${s.b}</p>
+          <button class="card-dl-btn"
+            onclick="event.stopPropagation();window.open('${s.pdf}','_blank')">
+            📥 Scarica PDF
+          </button>
         </div>
       </div>
     </div>
