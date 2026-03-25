@@ -506,7 +506,7 @@ html,body{
           <button class="btn btn-purple" onclick="nav('didattica')">Didattica</button>
         </div>
       </div>
-      <p class="app-version">v2.16</p>
+      <p class="app-version">v2.17</p>
     </div>
   </div>
 
@@ -790,7 +790,7 @@ function renderProgetto() {
   document.getElementById('prog-content').innerHTML = `
     <div class="prog-hero">
       <h2 class="prog-hero-title">Ecosistema di Comunità</h2>
-      <p class="prog-hero-sub">Un progetto Erasmus+ per la tutela della biodiversità</p>
+      <p class="prog-hero-sub">Un progetto finanziato da Fondazione Cariverona per la tutela della biodiversità</p>
     </div>
     <p class="prog-desc">
       Il progetto mette in comunicazione comunità e territori diversi, avviando processi
@@ -910,7 +910,7 @@ function renderCS() {
     </div>
     <div>
       <h3 class="cs-sec-title">Il Progetto</h3>
-      <p class="cs-sec-text">ECO è un progetto Erasmus+ KA210-YOU che coinvolge sei organizzazioni italiane unite da un obiettivo comune: avvicinare i giovani alla natura, tutelare la biodiversità e costruire comunità più sostenibili attraverso educazione, scienza e cittadinanza attiva.</p>
+      <p class="cs-sec-text">ECO è un progetto finanziato da Fondazione Cariverona che coinvolge sei organizzazioni italiane unite da un obiettivo comune: avvicinare i giovani alla natura, tutelare la biodiversità e costruire comunità più sostenibili attraverso educazione, scienza e cittadinanza attiva.</p>
     </div>
     <div>
       <h3 class="cs-sec-title">I Partner</h3>
@@ -947,9 +947,10 @@ function renderCS() {
         </div>
       </div>
     </div>
-    <button class="prog-link-btn" onclick="window.open('https://www.ecosistemadicomunita.it','_blank')">
-      Visita il sito del progetto
-    </button>
+    <div style="text-align:center;padding:10px 0 4px">
+      <img src="cariverona.png" alt="Logo Fondazione Cariverona"
+        style="width:clamp(100px,calc(var(--aw)*0.38),160px);opacity:0.85">
+    </div>
   `;
 }
 
