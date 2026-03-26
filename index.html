@@ -169,6 +169,11 @@ html,body{
 
 /* ========= NATURA / CARDS ========= */
 #natura{background:var(--bg)}
+.natura-intro{
+  padding:6px clamp(14px,calc(var(--aw)*0.05),22px) 10px;
+  font-size:clamp(11px,calc(var(--aw)*0.031),13px);
+  color:#4a5568;font-weight:600;line-height:1.6;
+}
 .card-hint{
   padding:0 clamp(14px,calc(var(--aw)*0.04),20px) 10px;
   font-size:clamp(11px,calc(var(--aw)*0.03),13px);
@@ -542,7 +547,7 @@ html,body{
           <button class="btn btn-purple" onclick="nav('didattica')">Didattica</button>
         </div>
       </div>
-      <p class="app-version">v2.34</p>
+      <p class="app-version">v2.35</p>
     </div>
   </div>
 
@@ -556,6 +561,7 @@ html,body{
       </button>
       <span class="screen-title">Natura</span>
     </div>
+    <p class="natura-intro">20 schede per esplorare la natura: dai cicli vitali alla biodiversità, dagli ecosistemi al clima. Tocca ogni card per scoprire il contenuto.</p>
     <p class="card-hint">Tocca le card per scoprire di più!</p>
     <div class="cards-grid" id="cards-container"></div>
   </div>
