@@ -265,10 +265,7 @@ function renderDashboard(data, source) {
     ? '<tr><th>#</th><th>Sezione</th><th>Data</th><th>Ora</th><th>Sessione</th></tr>'
     : '<tr><th>#</th><th>Sezione</th><th>Data</th><th>Ora</th></tr>';
 
-  const now = new Date();
-  const nowStr = now.toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
-  document.getElementById('hdr-sub').textContent =
-    `Prima visita: ${firstVisit ? fmtDate(new Date(firstVisit)) : '—'} · Ultima: ${lastVisit ? fmtDate(new Date(lastVisit)) : '—'} · Aggiornato: ${nowStr}`;
+  document.getElementById('hdr-sub').textContent = '';
 
   el.innerHTML = `
     ${sourceBadge}
