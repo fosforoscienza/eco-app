@@ -556,7 +556,10 @@ html,body{
           <button class="btn btn-purple" onclick="nav('didattica')">Didattica</button>
         </div>
       </div>
-      <p class="app-version">v2.38</p>
+      <button id="install-btn" onclick="installPWA()" style="display:none;margin-top:6px;background:none;border:1.5px solid rgba(255,255,255,0.55);border-radius:20px;padding:4px 16px;color:rgba(255,255,255,0.85);font-size:clamp(10px,calc(var(--aw)*0.028),12px);font-family:'Nunito',sans-serif;font-weight:700;cursor:pointer;letter-spacing:.03em">
+        ↓ Installa App
+      </button>
+      <p class="app-version">v2.39</p>
     </div>
   </div>
 
@@ -1203,20 +1206,37 @@ renderCards();
 /* =========================================================
    SERVICE WORKER — registrazione + auto-update
    ========================================================= */
+let _installPrompt = null;
+
+window.addEventListener('beforeinstallprompt', e => {
+  e.preventDefault();
+  _installPrompt = e;
+  const btn = document.getElementById('install-btn');
+  if (btn) btn.style.display = 'inline-block';
+});
+
+window.addEventListener('appinstalled', () => {
+  const btn = document.getElementById('install-btn');
+  if (btn) btn.style.display = 'none';
+  _installPrompt = null;
+});
+
+function installPWA() {
+  if (_installPrompt) {
+    _installPrompt.prompt();
+    _installPrompt.userChoice.then(() => { _installPrompt = null; });
+  }
+}
+
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('/sw.js').then(reg => {
-      // Controlla aggiornamenti ogni volta che la pagina torna in focus
       document.addEventListener('visibilitychange', () => {
         if (document.visibilityState === 'visible') reg.update();
       });
     });
-
-    // Quando il SW manda SW_UPDATED → ricarica silenziosamente
     navigator.serviceWorker.addEventListener('message', e => {
-      if (e.data?.type === 'SW_UPDATED') {
-        window.location.reload();
-      }
+      if (e.data?.type === 'SW_UPDATED') window.location.reload();
     });
   });
 }
