@@ -1,0 +1,25 @@
+{
+  "name": "ECO App",
+  "short_name": "ECO",
+  "description": "Ecosistema di Comunità — Esplora la natura, gioca e scopri il progetto",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#3dab8a",
+  "theme_color": "#3dab8a",
+  "lang": "it",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

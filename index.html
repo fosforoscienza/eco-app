@@ -6,8 +6,17 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="theme-color" content="#e2d9c4">
+<meta name="theme-color" content="#3dab8a">
 <title>ECO App</title>
+<!-- PWA manifest -->
+<link rel="manifest" href="manifest.json">
+<!-- iOS PWA -->
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="apple-mobile-web-app-title" content="ECO App">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<!-- iOS splash screens -->
+<link rel="apple-touch-startup-image" media="(device-width:393px) and (device-height:852px) and (-webkit-device-pixel-ratio:3)" href="splash-pro.png">
+<link rel="apple-touch-startup-image" media="(device-width:430px) and (device-height:932px) and (-webkit-device-pixel-ratio:3)" href="splash-promax.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
@@ -547,7 +556,7 @@ html,body{
           <button class="btn btn-purple" onclick="nav('didattica')">Didattica</button>
         </div>
       </div>
-      <p class="app-version">v2.37</p>
+      <p class="app-version">v2.38</p>
     </div>
   </div>
 
@@ -1190,6 +1199,27 @@ function renderCS() {
    INIT
    ========================================================= */
 renderCards();
+
+/* =========================================================
+   SERVICE WORKER — registrazione + auto-update
+   ========================================================= */
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js').then(reg => {
+      // Controlla aggiornamenti ogni volta che la pagina torna in focus
+      document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'visible') reg.update();
+      });
+    });
+
+    // Quando il SW manda SW_UPDATED → ricarica silenziosamente
+    navigator.serviceWorker.addEventListener('message', e => {
+      if (e.data?.type === 'SW_UPDATED') {
+        window.location.reload();
+      }
+    });
+  });
+}
 </script>
 </body>
 </html>
