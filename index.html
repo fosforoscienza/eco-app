@@ -487,6 +487,45 @@ html,body{
   transition:background .15s,color .15s;
 }
 .prog-link-btn:active{background:var(--btn-blue);color:white}
+.prog-scopri-btn{
+  width:100%;padding:clamp(12px,calc(var(--aw)*0.034),16px);
+  border:none;border-radius:14px;
+  background:linear-gradient(135deg,#3d82b0,#3dab8a);
+  font-family:'Nunito',sans-serif;
+  font-size:clamp(13px,calc(var(--aw)*0.036),16px);font-weight:900;
+  color:white;cursor:pointer;letter-spacing:.04em;
+  transition:opacity .15s,transform .1s;
+}
+.prog-scopri-btn:active{opacity:.85;transform:scale(.98)}
+
+/* ========= SCOPRI DI PIÙ ========= */
+#scopridipiu{background:var(--white)}
+.scopri-scroll{flex:1;overflow-y:auto;padding:0 clamp(14px,calc(var(--aw)*0.04),20px) 24px;display:flex;flex-direction:column;gap:18px}
+.scopri-scroll::-webkit-scrollbar{width:3px}
+.scopri-scroll::-webkit-scrollbar-thumb{background:rgba(0,0,0,.1);border-radius:3px}
+.scopri-text-block{
+  background:#f6f8fb;border-radius:18px;
+  padding:clamp(16px,calc(var(--aw)*0.045),22px);
+}
+.scopri-text-title{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(16px,calc(var(--aw)*0.05),22px);
+  font-weight:700;color:var(--navy);margin-bottom:10px;
+}
+.scopri-text-body{
+  font-size:clamp(12px,calc(var(--aw)*0.033),15px);
+  color:#505868;font-weight:600;line-height:1.7;
+}
+.scopri-gallery-title{
+  font-size:clamp(13px,calc(var(--aw)*0.038),17px);
+  font-weight:800;color:var(--navy);
+}
+.scopri-gallery{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.scopri-gallery-item{
+  border-radius:14px;overflow:hidden;
+  aspect-ratio:1;background:#e8eef4;
+}
+.scopri-gallery-item img{width:100%;height:100%;object-fit:cover;display:block}
 
 /* ========= DIDATTICA ========= */
 #didattica{background:var(--bg)}
@@ -635,6 +674,58 @@ html,body{
       <span class="screen-title">Il Progetto</span>
     </div>
     <div class="prog-scroll" id="prog-content"></div>
+  </div>
+
+  <!-- ===== SCOPRI DI PIÙ ===== -->
+  <div class="screen" id="scopridipiu">
+    <div class="screen-header" style="background:white">
+      <button class="back-btn" onclick="nav('progetto')">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+          <path d="M11 3.5 L5.5 9 L11 14.5" stroke="#1a2748" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <span class="screen-title">Scopri di più</span>
+    </div>
+    <div class="scopri-scroll">
+      <div class="scopri-text-block">
+        <h2 class="scopri-text-title">Un titolo placeholder</h2>
+        <p class="scopri-text-body">
+          Questo è un testo placeholder che descrive in modo approfondito il progetto
+          Ecosistema di Comunità. Qui puoi raccontare attività svolte, risultati raggiunti,
+          storie dei partecipanti e tutto ciò che rende unico questo percorso.
+          <br><br>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus at libero
+          volutpat, consequat orci in, dictum nisi. Pellentesque habitant morbi tristique
+          senectus et netus et malesuada fames ac turpis egestas. Proin euismod urna vel
+          justo pharetra, sit amet tincidunt eros vestibulum.
+          <br><br>
+          Quisque euismod, enim sit amet posuere facilisis, lorem lorem sodales nisi,
+          at pellentesque nunc nulla et sapien. Integer congue dolor vitae gravida
+          tincidunt. Sed consequat diam nec ex convallis, id faucibus purus lacinia.
+        </p>
+      </div>
+      <p class="scopri-gallery-title">Galleria fotografica</p>
+      <div class="scopri-gallery">
+        <div class="scopri-gallery-item">
+          <img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=400&q=80" alt="Foto 1">
+        </div>
+        <div class="scopri-gallery-item">
+          <img src="https://images.unsplash.com/photo-1518173946687-a4c8892bbd9f?w=400&q=80" alt="Foto 2">
+        </div>
+        <div class="scopri-gallery-item">
+          <img src="https://images.unsplash.com/photo-1470770841072-f978cf4d019e?w=400&q=80" alt="Foto 3">
+        </div>
+        <div class="scopri-gallery-item">
+          <img src="https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=400&q=80" alt="Foto 4">
+        </div>
+        <div class="scopri-gallery-item">
+          <img src="https://images.unsplash.com/photo-1501854140801-50d01698950b?w=400&q=80" alt="Foto 5">
+        </div>
+        <div class="scopri-gallery-item">
+          <img src="https://images.unsplash.com/photo-1448375240586-882707db888b?w=400&q=80" alt="Foto 6">
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- ===== GUIDA ===== -->
@@ -840,8 +931,8 @@ function _getStats() {
 }
 function _freshStats() {
   return { sessions:0, firstVisit:Date.now(), lastVisit:Date.now(),
-    sections:{home:0,natura:0,gioca:0,chisiamo:0,progetto:0,didattica:0,guida:0},
-    timeSpent:{home:0,natura:0,gioca:0,chisiamo:0,progetto:0,didattica:0,guida:0},
+    sections:{home:0,natura:0,gioca:0,chisiamo:0,progetto:0,scopridipiu:0,didattica:0,guida:0},
+    timeSpent:{home:0,natura:0,gioca:0,chisiamo:0,progetto:0,scopridipiu:0,didattica:0,guida:0},
     quizDone:0, cardFlips:0, schedeFlips:0, log:[] };
 }
 function _saveStats(s) { try { localStorage.setItem(_SK, JSON.stringify(s)); } catch(e) {} }
@@ -1071,6 +1162,9 @@ function renderProgetto() {
         </div>
       </div>
     </div>
+    <button class="prog-scopri-btn" onclick="nav('scopridipiu')">
+      SCOPRI DI PIÙ
+    </button>
     <button class="prog-link-btn" onclick="window.open('https://www.ecosistemadicomunita.it','_blank')">
       Visita il sito del progetto
     </button>
