@@ -526,7 +526,30 @@ html,body{
   border-radius:14px;overflow:hidden;
   aspect-ratio:1;background:#e8eef4;
 }
-.scopri-gallery-item img{width:100%;height:100%;object-fit:cover;display:block}
+.scopri-gallery-item img{width:100%;height:100%;object-fit:cover;display:block;cursor:pointer;transition:opacity .15s}
+.scopri-gallery-item img:active{opacity:.85}
+
+/* ========= LIGHTBOX ========= */
+#lightbox{
+  display:none;position:fixed;inset:0;z-index:9999;
+  background:rgba(0,0,0,.85);
+  align-items:center;justify-content:center;
+  padding:20px;
+}
+#lightbox.open{display:flex}
+#lightbox img{
+  max-width:100%;max-height:85vh;
+  border-radius:16px;object-fit:contain;
+  box-shadow:0 8px 40px rgba(0,0,0,.5);
+}
+#lightbox-close{
+  position:absolute;top:16px;right:16px;
+  width:38px;height:38px;border-radius:50%;
+  background:rgba(255,255,255,.15);border:none;
+  color:white;font-size:22px;line-height:1;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;
+  backdrop-filter:blur(4px);
+}
 
 /* ========= DIDATTICA ========= */
 #didattica{background:var(--bg)}
@@ -708,22 +731,22 @@ html,body{
       <p class="scopri-gallery-title">Galleria fotografica</p>
       <div class="scopri-gallery">
         <div class="scopri-gallery-item">
-          <img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=400&q=80" alt="Foto 1">
+          <img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=400&q=80" alt="Foto 1" onclick="openLightbox(this.src)">
         </div>
         <div class="scopri-gallery-item">
-          <img src="https://images.unsplash.com/photo-1518173946687-a4c8892bbd9f?w=400&q=80" alt="Foto 2">
+          <img src="https://images.unsplash.com/photo-1518173946687-a4c8892bbd9f?w=400&q=80" alt="Foto 2" onclick="openLightbox(this.src)">
         </div>
         <div class="scopri-gallery-item">
-          <img src="https://images.unsplash.com/photo-1470770841072-f978cf4d019e?w=400&q=80" alt="Foto 3">
+          <img src="https://images.unsplash.com/photo-1470770841072-f978cf4d019e?w=400&q=80" alt="Foto 3" onclick="openLightbox(this.src)">
         </div>
         <div class="scopri-gallery-item">
-          <img src="https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=400&q=80" alt="Foto 4">
+          <img src="https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=400&q=80" alt="Foto 4" onclick="openLightbox(this.src)">
         </div>
         <div class="scopri-gallery-item">
-          <img src="https://images.unsplash.com/photo-1501854140801-50d01698950b?w=400&q=80" alt="Foto 5">
+          <img src="https://images.unsplash.com/photo-1501854140801-50d01698950b?w=400&q=80" alt="Foto 5" onclick="openLightbox(this.src)">
         </div>
         <div class="scopri-gallery-item">
-          <img src="https://images.unsplash.com/photo-1448375240586-882707db888b?w=400&q=80" alt="Foto 6">
+          <img src="https://images.unsplash.com/photo-1448375240586-882707db888b?w=400&q=80" alt="Foto 6" onclick="openLightbox(this.src)">
         </div>
       </div>
     </div>
@@ -1335,6 +1358,22 @@ if ('serviceWorker' in navigator) {
     });
   });
 }
+
+function openLightbox(src) {
+  const lb = document.getElementById('lightbox');
+  document.getElementById('lightbox-img').src = src;
+  lb.classList.add('open');
+}
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('open');
+}
 </script>
+
+<!-- Lightbox -->
+<div id="lightbox" onclick="closeLightbox()">
+  <button id="lightbox-close" onclick="closeLightbox()">✕</button>
+  <img id="lightbox-img" src="" alt="Foto ingrandita" onclick="event.stopPropagation()">
+</div>
+
 </body>
 </html>
