@@ -3,7 +3,7 @@
    Cache solo asset statici locali; foto Unsplash e PDF esclusi.
 */
 
-const CACHE_NAME = 'eco-app-v2.37';
+const CACHE_NAME = 'eco-app-v2.40';
 const STATIC_ASSETS = [
   '/',
   '/index.html',
